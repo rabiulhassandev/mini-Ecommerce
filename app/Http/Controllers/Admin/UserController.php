@@ -6,10 +6,11 @@ use App\Models\User;
 use App\Models\Admin\Role;
 use Illuminate\Http\Request;
 use App\Traits\User\Settings;
+use App\Models\Admin\UserStatus;
 use Laravel\Fortify\Rules\Password;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\UserStatus;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 
@@ -34,7 +35,7 @@ class UserController extends Controller
 
 
         \config_set('theme.cdata', [
-            'title' => 'User table',
+            'title' => 'Users',
             'model' => 'User',
             'back' => \back_url(),
             'breadcrumb' => [
@@ -43,7 +44,7 @@ class UserController extends Controller
                     'link' => route('admin.dashboard')
                 ],
                 [
-                    'name' => 'User Table',
+                    'name' => 'Users',
                     'link' => false
                 ],
             ],
@@ -87,12 +88,12 @@ class UserController extends Controller
                     'link' => route('admin.dashboard')
                 ],
                 [
-                    'name' => 'User Table',
+                    'name' => 'Users',
                     'link' => \route('admin.user.index')
                 ],
 
                 [
-                    'name' => 'User Create New User',
+                    'name' => 'Create',
                     'link' => false
                 ],
             ],
@@ -136,7 +137,10 @@ class UserController extends Controller
 
             $data['profile_photo_path'] = $request->avatar->store('users');
         }
-        $user = User::create($data)->assignRole($data['role'])->syncPermissions($data['permissions']);
+
+        $data['password'] = Hash::make($request->password);
+
+        $user = User::create($data)->assignRole($data['role'])->syncPermissions($data['permissions'] ?? []);
         $user->forgetCache();
         // flash message
         Session::flash('success', 'Successfully Stored new user data.');
@@ -151,19 +155,19 @@ class UserController extends Controller
     public function show(User $user)
     {
         \config_set('theme.cdata', [
-            'title' => 'User Information',
+            'title' => 'Details',
             'breadcrumb' => [
                 [
                     'name' => 'Dashboard',
                     'link' => route('admin.dashboard')
                 ],
                 [
-                    'name' => 'User Table',
+                    'name' => 'Users',
                     'link' => \route('admin.user.index')
                 ],
 
                 [
-                    'name' => 'User Information',
+                    'name' => 'Details',
                     'link' => false
                 ],
             ],
@@ -195,12 +199,12 @@ class UserController extends Controller
                     'link' => route('admin.dashboard')
                 ],
                 [
-                    'name' => 'User Table',
+                    'name' => 'Users',
                     'link' => \route('admin.user.index')
                 ],
 
                 [
-                    'name' => 'Edit User Information',
+                    'name' => 'Edit',
                     'link' => false
                 ],
             ],
@@ -240,9 +244,11 @@ class UserController extends Controller
             $request->validate([
                 'password' => ['required', 'string', new Password, 'confirmed'],
             ]);
+            $data['password'] = Hash::make($request->password);
         } else {
             unset($data['password']);
         }
+
         if ($request->hasFile('avatar')) {
             $request->validate([
                 'avatar' => 'image',
@@ -254,7 +260,7 @@ class UserController extends Controller
         $user->update($data);
 
         if ($user->id != auth()->user()->id) {
-            $user->syncRoles($data['role'])->syncPermissions($data['permissions']);
+            $user->syncRoles($data['role'])->syncPermissions($data['permissions'] ?? []);
         } else {
             $user->user_status_id = 2;
             $user->save();

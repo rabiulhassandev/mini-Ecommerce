@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UserStatusRestrictionMiddleware
 {
@@ -16,8 +17,10 @@ class UserStatusRestrictionMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (\auth()->user()->status->id == 1 or \auth()->user()->status->id == 3) {
-            return \redirect()->route('user.user-block');
+        $user = auth()->user();
+        if ($user->status->id == 1 or $user->status->id == 3) {
+            Session::flash('error', 'Your account is '. ($user->status->name ?? 'not active') .'. Please contact support.');
+            return \redirect()->route('home.index');
         }
         return $next($request);
     }

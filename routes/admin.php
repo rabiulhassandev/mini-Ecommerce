@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\UserStatusController;
 use App\Http\Controllers\Admin\PageBuilderController;
 use App\Http\Controllers\Admin\AttributesSetController;
+use App\Http\Middleware\UserStatusRestrictionMiddleware;
 use App\Http\Controllers\Admin\AttributesValueController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 
@@ -62,7 +63,9 @@ use App\Http\Controllers\Admin\Setting\SettingController;
      * ----------------------------------------------------------
      *
      */
-    Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
+
+     Route::prefix('admin')->middleware(['auth', 'verified', UserStatusRestrictionMiddleware::class])
+     ->group(function () {
         Route::get('/', [DashboardController::class, 'redirect'])->name('admin.redirect');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 

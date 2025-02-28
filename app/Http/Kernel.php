@@ -40,10 +40,7 @@ class Kernel extends HttpKernel
          *
          */
         \App\Http\Middleware\VisitorCounterMiddleware::class,
-
-
-
-
+        // \App\Http\Middleware\UserStatusRestrictionMiddleware::class,
 
 
     ];

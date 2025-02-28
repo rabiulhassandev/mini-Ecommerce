@@ -19,11 +19,13 @@
             @can('user_browse')
             <div class="col-xl-3 col-md-6">
                 <div class="card mini-stat m-b-30">
-                    <div class="p-3 bg-primary text-white">
-                        <h6 class="text-uppercase mb-0">Users</h6>
-                        <h2>{{ $analytic['user']['user']??0 }}</h2>
-                        <i class="bx bx-user dashboard-card-icon"></i>
-                    </div>
+                    <a href="{{ route('admin.user.index') }}">
+                        <div class="p-3 bg-primary text-white">
+                            <h6 class="text-uppercase mb-0">Users</h6>
+                            <h2>{{ $analytic['user']['user']??0 }}</h2>
+                            <i class="bx bx-user dashboard-card-icon"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
             @endcan
@@ -31,11 +33,13 @@
             @can('categories')
             <div class="col-xl-3 col-md-6">
                 <div class="card mini-stat m-b-30">
-                    <div class="p-3 bg-primary text-white">
-                        <h6 class="text-uppercase mb-0">Category</h6>
-                        <h2>{{ $analytic['categories']??0 }}</h2>
-                        <i class="bx bx-bar-chart-alt-2 dashboard-card-icon"></i>
-                    </div>
+                    <a href="{{ route('admin.categories.index') }}">
+                        <div class="p-3 bg-primary text-white">
+                            <h6 class="text-uppercase mb-0">Category</h6>
+                            <h2>{{ $analytic['categories']??0 }}</h2>
+                            <i class="bx bx-bar-chart-alt-2 dashboard-card-icon"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
             @endcan
@@ -43,11 +47,13 @@
             @can('products')
             <div class="col-xl-3 col-md-6">
                 <div class="card mini-stat m-b-30">
-                    <div class="p-3 bg-primary text-white">
-                        <h6 class="text-uppercase mb-0">Products</h6>
-                        <h2>{{ $analytic['products']??0 }}</h2>
-                        <i class="bx bx-cart dashboard-card-icon"></i>
-                    </div>
+                    <a href="{{ route('admin.products.index') }}">
+                        <div class="p-3 bg-primary text-white">
+                            <h6 class="text-uppercase mb-0">Products</h6>
+                            <h2>{{ $analytic['products']??0 }}</h2>
+                            <i class="bx bx-cart dashboard-card-icon"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
             @endcan
@@ -55,11 +61,13 @@
             @can('sliders')
             <div class="col-xl-3 col-md-6">
                 <div class="card mini-stat m-b-30">
-                    <div class="p-3 bg-primary text-white">
-                        <h6 class="text-uppercase mb-0">Slider</h6>
-                        <h2>{{ $analytic['sliders']??0 }}</h2>
-                        <i class="bx bx-slideshow dashboard-card-icon"></i>
-                    </div>
+                    <a href="{{ route('admin.sliders.index') }}">
+                        <div class="p-3 bg-primary text-white">
+                            <h6 class="text-uppercase mb-0">Slider</h6>
+                            <h2>{{ $analytic['sliders']??0 }}</h2>
+                            <i class="bx bx-slideshow dashboard-card-icon"></i>
+                        </div>
+                    </a>
                 </div>
             </div>
             @endcan
