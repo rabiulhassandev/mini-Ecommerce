@@ -17,10 +17,10 @@
             @enderror
         </div>
         <div class="form-group pt-1 pb-1">
-            <label for="username" class="font-black">Username</label>
-            <input type="username" class="form-control" name="username" id="username" placeholder="Enter Username"
-                value="{{old('username')??$user->username }}" required>
-            @error('username')
+            <label for="email" class="font-black">Email</label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="Enter email"
+                value="{{old('email')??$user->email }}" required readonly>
+            @error('email')
             <p class="text-danger pt-2">{{ $message }}</p>
             @enderror
         </div>

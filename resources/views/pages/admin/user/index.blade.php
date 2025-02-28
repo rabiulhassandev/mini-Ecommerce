@@ -20,7 +20,7 @@
                     <h4 class="">{{ config('theme.cdata.title') }}</h4>
                 </div>
                 <div>
-                    @if (config('theme.cdata.add'))
+                    @if (config('theme.cdata.add') && can('user_create'))
                     <a href="{{ config('theme.cdata.add') }}"
                         class="btn btn-primary btn-rounded waves-effect waves-light">
                         <i class="bx bx-plus"></i> Add New
