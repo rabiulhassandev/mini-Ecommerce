@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="email" class="font-black">Email</label>
-                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" value="{{ $data->email }}" required>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" value="{{ $data->email }}" required readonly>
                             @error('email')
                             <p class="text-danger pt-2">{{ $message }}</p>
                             @enderror
@@ -55,7 +55,7 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label for="address" class="font-black">Address</label>
-                            <textarea name="address" id="address" class="form-control" cols="30" rows="3" placeholder="Write a short description about yourself">{{ $data->address }}</textarea>
+                            <textarea name="address" id="address" class="form-control" cols="30" rows="3" placeholder="Enter your address">{{ $data->address }}</textarea>
                             @error('address')
                             <p class="text-danger pt-2">{{ $message }}</p>
                             @enderror
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="whatsapp" class="font-black">WhatsApp No</label>
-                                    <input type="text" class="form-control" name="whatsapp" id="whatsapp" placeholder="+8801*********" value="{{ $data->whatsapp }}" required>
+                                    <input type="text" class="form-control" name="whatsapp" id="whatsapp" placeholder="enter your whatsapp number" value="{{ $data->whatsapp }}" required>
                                     @error('whatsapp')
                                     <p class="text-danger pt-2">{{ $message }}</p>
                                     @enderror
