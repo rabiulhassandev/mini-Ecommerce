@@ -1,0 +1,4 @@
+Month: September 2023
+    Date : 02/09/2023
+        1.  Duration : 30 minutes
+            Details: Some Issue Update (Currency Issue, Thumbnail Issue, etc)

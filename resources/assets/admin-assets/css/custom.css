@@ -1,0 +1,63 @@
+.dashboard-card-icon{
+    font-size: 80px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0.3;
+}
+
+#sidebar-menu li.active a.active{
+    background: #e0e2e3;
+    font-weight: bold;
+}
+
+#sidebar-menu ul ul li.active a{
+    background: transparent !important;
+}
+
+table thead tr{
+    background-color: #508aeb;
+}
+table thead tr th{
+    color: #fff;
+}
+
+.has_sub.nav-active i.bx-chevron-right:before {
+    content: "\ea4a";
+}
+.profile-dropdown .dropdown-item{
+    display: flex;
+    align-items: center;
+}
+.bx{
+    line-height: unset;
+}
+.table-responsive .container-fluid{
+    padding: 0px !important;
+}
+table#datatable {
+    width: 100% !important;
+}
+.breadcrumb > li + li:before{
+    content: "\ea50" !important;
+    font-family: 'boxicons';
+}
+.setting-nav li.active a{
+    background-color: #508aeb !important;
+}
+
+.table-hover tbody tr:hover, .table-striped tbody tr:nth-of-type(2n+1), .thead-default th {
+    background-color: #f4f2f2;
+}
+
+.select2-container--default .select2-selection--single{
+    height: 38px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    text-align: left;
+    line-height: 38px !important;
+}
+.mce-ico {
+    font-family: 'tinymce',Arial !important;
+}
