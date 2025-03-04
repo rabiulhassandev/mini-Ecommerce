@@ -60,8 +60,6 @@
                                     <th>Title</th>
                                     <th>Root Category</th>
                                     <th>Order</th>
-                                    <th>Thumbnail</th>
-                                    <th>Banner</th>
                                     <th>Status</th>
                                     <th class="noExport">Action</th>
                                 </tr>
@@ -79,12 +77,6 @@
                                 </td>
                                 <td>
                                     {{ $item->order }}
-                                </td>
-                                <td class="py-1">
-                                    <img src="{{ image_url($item->thumbnail, admin_asset('images/no-image/150x150.png')) }}" alt="thumbnail" style="height: 40px;" class="rounded">
-                                </td>
-                                <td class="py-1">
-                                    <img src="{{ image_url($item->banner, admin_asset('images/no-image/150x150.png')) }}" alt="banner" style="height: 30px;" class="rounded">
                                 </td>
                                 <td>
                                     @if ($item->status==true)

@@ -11,7 +11,7 @@ class Category extends Model
     use HasFactory, WithCache;
 
     protected static $cacheKey = '__categories__';
-    protected $fillable = ['name','slug','icon', 'order', 'thumbnail', 'banner', 'meta_title', 'meta_desc', 'status', 'parent_id'];
+    protected $fillable = ['name','slug', 'order', 'status', 'parent_id'];
 
 
     // Category
@@ -24,5 +24,10 @@ class Category extends Model
     public function categories()
     {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    // products
+    public function products(){
+        return $this->hasMany(Product::class, 'category_id');
     }
 }

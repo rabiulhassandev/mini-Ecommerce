@@ -87,30 +87,6 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group mb-0">
-                                        <label for="thumbnail" class="font-black">Thumbnail (150x150)</label>
-                                        <input type="file" class="form-control" name="thumbnail" id="thumbnail"
-                                            onchange="get_img_url(this, '#thumbnail_url');" placeholder="Select Thumbnail">
-                                        <img id="thumbnail_url" src="{{ config('theme.cdata.edit')?image_url($data->thumbnail):null }}" width="80px"
-                                            class="mt-1">
-                                        @error('thumbnail')
-                                        <p class="text-danger pt-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group mb-0">
-                                        <label for="banner" class="font-black">Banner (835x200)</label>
-                                        <input type="file" class="form-control" name="banner" id="banner"
-                                            onchange="get_img_url(this, '#banner_url');" placeholder="Select Banner">
-                                        <img id="banner_url" src="{{ config('theme.cdata.edit')?image_url($data->banner):null }}" width="120px"
-                                            class="mt-1">
-                                        @error('banner')
-                                        <p class="text-danger pt-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="status" class="font-black">Status</label>
                                         <select name="status" class="form-control" required>
@@ -118,24 +94,6 @@
                                             <option value="0" {{ config('theme.cdata.edit')?selected( $data->status,false):null }}>Inactive</option>
                                         </select>
                                         @error('status')
-                                        <p class="text-danger pt-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="meta_title">Meta title</label>
-                                        <input type="text" name="meta_title" class="form-control" placeholder="Enter meta title" value="{{ config('theme.cdata.edit')?$data->meta_title:old('meta_title') }}" required>
-                                        @error('meta_title')
-                                        <p class="text-danger pt-2">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="meta_desc">Meta Description</label>
-                                        <textarea name="meta_desc" id="meta_desc" class="form-control" style="min-height: 80px;" placeholder="Write a meta description">{{ config('theme.cdata.edit')?$data->meta_desc:old('meta_desc') }}</textarea>
-                                        @error('meta_desc')
                                         <p class="text-danger pt-2">{{ $message }}</p>
                                         @enderror
                                     </div>

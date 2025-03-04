@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
         $data = [
             [
                 'name' => 'Electronic',
-                'slug' => 'Electronic',
+                'slug' => 'electronic',
                 'parent_id' => null,
             ],
             [
@@ -37,7 +37,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Grocery',
-                'slug' => 'Grocery',
+                'slug' => 'grocery',
                 'parent_id' => null,
             ],
             [

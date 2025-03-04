@@ -17,12 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('slug')->unique();
-            $table->string('icon')->default('bx bx-category');
             $table->integer('order')->default('0');
-            $table->string('thumbnail')->nullable();
-            $table->string('banner')->nullable();
-            $table->string('meta_title')->nullable();
-            $table->longText('meta_desc')->nullable();
             $table->boolean('status')->default(true);
 
             $table->unsignedBigInteger('parent_id')->nullable();

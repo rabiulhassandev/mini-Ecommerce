@@ -49,7 +49,6 @@ class CategoryController extends Controller
         $collection = $collection->where(function ($collection) use ($request) {
             $collection->where('name', 'LIKE', "%{$request->search}%");
             $collection->orWhere('slug', 'LIKE', "%{$request->search}%");
-            $collection->orWhere('meta_title', 'LIKE', "%{$request->search}%");
         });
         $collection = $collection->orderBy('order')->paginate(20)->withQueryString();
 
@@ -102,19 +101,19 @@ class CategoryController extends Controller
             'slug' => ['required', 'string', 'unique:categories,slug'],
             'parent_id' => ['nullable', 'integer', 'in:0,' . \collect(Category::where('parent_id', null)->get())->pluck('id')->implode(',')],
             'order' => ['required', 'integer', 'min:0'],
-            'thumbnail' => ['mimes:png,jpg,jpeg,svg,gif', 'max:2024', 'dimensions:width=150,height=150'],
-            'banner' => ['mimes:png,jpg,jpeg,svg,gif', 'max:2024', 'dimensions:width=835,height=200'],
-            'meta_title' => ['required', 'string'],
-            'meta_desc' => ['required', 'string'],
+            'status' => ['required', 'numeric', 'in:0,1'],
         ]);
 
         if($data['parent_id'] == 0) $data['parent_id'] = null;
 
-        $data['thumbnail'] = upload_image($request, 'thumbnail', 'categories/thumbnail');
-        $data['banner'] = upload_image($request, 'banner', 'categories/banner');
-
         // dd($data);
-        Category::create($data);
+        try {
+            Category::create($data);
+        } catch (\Throwable $th) {
+            // flash message
+            Session::flash('error', 'Data Storing Issue!');
+            return \redirect()->route('admin.categories.create');
+        }
 
         // flash message
         Session::flash('success', 'New Category Added.');
@@ -179,20 +178,19 @@ class CategoryController extends Controller
             'slug' => ['required', 'string', 'unique:categories,slug,'.$category->id.',id'],
             'parent_id' => ['nullable', 'integer', 'in:0,' . \collect(Category::where('parent_id', null)->get())->pluck('id')->implode(',')],
             'order' => ['nullable', 'integer', 'min:0'],
-            'thumbnail' => ['mimes:png,jpg,jpeg,svg,gif', 'max:2024', 'dimensions:width=150,height=150'],
-            'banner' => ['mimes:png,jpg,jpeg,svg,gif', 'max:2024', 'dimensions:width=835,height=200'],
-            'meta_title' => ['required', 'string'],
-            'meta_desc' => ['required', 'string'],
             'status' => ['required', 'numeric', 'in:0,1'],
         ]);
 
         if($data['parent_id'] == 0) $data['parent_id'] = null;
 
-        $data['thumbnail'] = upload_image($request, 'thumbnail', 'categories/thumbnail', $category->thumbnail);
-        $data['banner'] = upload_image($request, 'banner', 'categories/banner', $category->banner);
-
         // dd($data);
-        $category->update($data);
+        try {
+            $category->update($data);
+        } catch (\Throwable $th) {
+            // flash message
+            Session::flash('error', 'Data Updating Issue!');
+            return \redirect()->back();
+        }
 
         // flash message
         Session::flash('success', 'Category Updated Successfully.');
@@ -208,16 +206,17 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if($category->categories()->count() == 0){
-            $category->delete();
-
-            Session::flash('success', 'Category Removed Successfully');
+            if($category->products()->count() == 0){
+                Session::flash('success', 'Category Removed Successfully');
+                $category->delete();
+            }else{
+                Session::flash('error', 'Products exists under this category');
+            }
         }else{
             Session::flash('error', 'This Category has sub category.');
         }
 
 
-        // flash message
-        Session::flash('success', 'Category Removed Successfully');
         return \redirect()->route('admin.categories.index');
     }
 }
