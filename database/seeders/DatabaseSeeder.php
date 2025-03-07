@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             PageBuilderSeeder::class,
             ColorSeeder::class,
+            AttributesValueSeeder::class,
             CategorySeeder::class,
             SliderSeeder::class,
             ProductSeeder::class,

@@ -37,6 +37,8 @@ Route::get('/page/{slug}', [HomeController::class, 'page'])->name('home.page');
 Route::post('/attribute-values', [HomeController::class, 'attributeValues'])->name('home.attribute-values');
 // attribute value details
 Route::post('/attribute-value-details', [HomeController::class, 'attributeValueDetails'])->name('home.attribute-value-details');
+// color details
+Route::post('/color-details', [HomeController::class, 'colorDetails'])->name('home.color-details');
 
 
 // add to cart routes

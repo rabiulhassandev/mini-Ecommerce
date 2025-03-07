@@ -61,8 +61,6 @@
                                     <th>Name</th>
                                     <th>Price</th>
                                     <th>Category</th>
-                                    <th>Featured</th>
-                                    <th>Today's Deal</th>
                                     <th>Stock</th>
                                     <th>Status</th>
                                     <th class="noExport">Action</th>
@@ -78,34 +76,20 @@
                                     {{ $item->name }}
                                 </td>
                                 <td>
-                                    {{ $item->unit_price }}{{ setting('site.currency')??'TK' }}
+                                    {{ $item->price }}{{ setting('site.currency')??'TK' }}
                                 </td>
                                 <td>
                                     {{ $item->category_id != null ? $item->category->name : null  }}
                                 </td>
                                 <td>
-                                    @if ($item->featured_status==true)
-                                        <span class="badge bg-success text-white">Active</span>
-                                    @else
-                                    <span class="badge bg-danger text-white">Inactive</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($item->todays_deal_status==true)
-                                        <span class="badge bg-success text-white">Active</span>
-                                    @else
-                                    <span class="badge bg-danger text-white">Inactive</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($item->stock_status==true)
+                                    @if ($item->stock_status)
                                         <span class="badge bg-success text-white">In Stock</span>
                                     @else
                                     <span class="badge bg-danger text-white">Out of Stock</span>
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($item->status==true)
+                                    @if ($item->status)
                                         <span class="badge bg-success text-white">Active</span>
                                     @else
                                     <span class="badge bg-danger text-white">Inactive</span>

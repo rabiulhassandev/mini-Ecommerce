@@ -9,6 +9,7 @@ use App\Models\Admin\Category;
 use App\Models\Admin\PageBuilder;
 use App\Models\Admin\AttributesSet;
 use App\Models\Admin\AttributesValue;
+use App\Models\Admin\Color;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Session;
 
@@ -213,6 +214,26 @@ class HomeController extends Controller
         return response([
             'status' => true,
             'data' => ['id' => $find->id, 'value' => $find->value],
+            'message' => 'Data Found'
+        ]);
+    }
+
+    // return color info depend on color id
+    public function colorDetails(Request $request)
+    {
+        $find = Color::find($request->id);
+
+        if(!$find){
+            return response([
+                'status' => false,
+                'data' => [],
+                'message' => 'Data Found'
+            ]);
+        }
+
+        return response([
+            'status' => true,
+            'data' => ['id' => $find->id, 'name' => $find->name],
             'message' => 'Data Found'
         ]);
     }

@@ -95,17 +95,14 @@
                                     <a class="nav-link active" data-toggle="tab" href="#basic_tab" role="tab">Basic</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#details_tab" role="tab">Details</a>
+                                    <a class="nav-link" data-toggle="tab" href="#color_attr__tab" role="tab">Colors & Attr</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#meta_info_tab" role="tab">Meta Info</a>
+                                    <a class="nav-link" data-toggle="tab" href="#details_tab" role="tab">Description</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#status_tab" role="tab">Status</a>
                                 </li>
-                                {{-- <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#others_tab" role="tab">Others</a>
-                                </li> --}}
                             </ul>
 
                             <!-- Tab panes -->
@@ -114,8 +111,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="name">Name</label>
-                                                <input type="text" name="name" id="name" class="form-control slug-input" placeholder="Enter Product Name" value="{{ config('theme.cdata.edit')?$data->name:old('name') }}" onkeyup="slugGen(this.val())" required>
+                                                <label for="name">Name <span class="text-danger"><b>*</b></span> </label>
+                                                <input type="text" name="name" id="name" class="form-control slug-input" placeholder="Enter Product Name" value="{{ config('theme.cdata.edit')?$data->name:old('name') }}" required>
                                                 @error('name')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
@@ -123,8 +120,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="slug">Slug</label>
-                                                <input type="text" name="slug" id="slug" placeholder="Enter product slug" class="form-control slug-output" value="{{ config('theme.cdata.edit')?$data->slug:old('slug') }}" required>
+                                                <label for="slug">Slug <span class="text-danger"><b>*</b></span></label>
+                                                <input type="text" name="slug" id="slug" placeholder="Enter product slug" class="form-control @if(!isset($data)) slug-output @endif" value="{{ config('theme.cdata.edit')?$data->slug:old('slug') }}" required {{ isset($data) ? 'readonly' : '' }}>
                                                 @error('slug')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
@@ -148,56 +145,30 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="unit">Unit</label>
-                                                <input type="text" name="unit" id="unit" placeholder="Unit (e.g kg. pc. etc)" class="form-control" value="{{ config('theme.cdata.edit')?$data->unit:old('unit') }}" required>
-                                                @error('unit')
+                                                <label for="price">Price <span class="text-danger"><b>*</b></span></label>
+                                                <input type="text" name="price" id="price" placeholder="Price" class="form-control" value="{{ config('theme.cdata.edit')?$data->price:old('price') }}" required>
+                                                @error('price')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        {{-- <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="min_order_qty">Min. Order Quantity</label>
-                                                <input type="number" name="min_order_qty" id="min_order_qty" placeholder="Min. Order Quantity" class="form-control" value="{{ config('theme.cdata.edit')?$data->min_order_qty:old('min_order_qty') }}" required>
-                                                @error('min_order_qty')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="unit_price">Unit Price</label>
-                                                <input type="text" name="unit_price" id="unit_price" placeholder="Unit Price" class="form-control" value="{{ config('theme.cdata.edit')?$data->unit_price:old('unit_price') }}" required>
-                                                @error('unit_price')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="sku">SKU</label>
+                                                <label for="sku">SKU <span class="text-danger"><b>*</b></span></label>
                                                 <input type="text" name="sku" id="sku" placeholder="SKU" class="form-control" value="{{ config('theme.cdata.edit')?$data->sku: Str::random(15) }}" required>
                                                 @error('sku')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="shipping_days">Shipping Days</label>
-                                                <input type="number" name="shipping_days" id="shipping_days" placeholder="Shipping Days" class="form-control" value="{{ config('theme.cdata.edit')?$data->shipping_days:old('shipping_days') }}" required>
-                                                @error('shipping_days')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-6">
                                             <div class="form-group mb-0">
-                                                <label for="thumbnail" class="font-black">Thumbnail (800x800)</label>
+                                                <label for="thumbnail" class="font-black">Thumbnail</label>
                                                 <input type="file" class="form-control" name="thumbnail" id="thumbnail"
-                                                    onchange="get_img_url(this, '#thumbnail_url');" placeholder="Select Thumbnail">
+                                                    onchange="get_img_url(this, '#thumbnail_url');" placeholder="Select Thumbnail" >
                                                 <img id="thumbnail_url" src="{{ config('theme.cdata.edit')?image_url($data->thumbnail):null }}" width="80px"
                                                     class="mt-1">
+                                                <p>Max Size: <span class="text-danger"><b>5MB</b></span>, Width-Height:<span class="text-danger"><b>800x800</b></span></p>
                                                 @error('thumbnail')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
@@ -209,8 +180,8 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="short_desc">Short Description</label>
-                                                <textarea name="short_desc" id="short_desc" class="form-control elm1" style="min-height: 80px;" placeholder="Write a short description (Less than 200 word)">{{ config('theme.cdata.edit')?$data->short_desc:old('short_desc') }}</textarea>
+                                                <label for="short_desc">Short Description<span class="text-danger"><b>*</b></span></label>
+                                                <textarea name="short_desc" id="short_desc" class="form-control" style="min-height: 80px;" placeholder="Write a short description (Less than 200 word)">{{ config('theme.cdata.edit')?$data->short_desc:old('short_desc') }}</textarea>
                                                 @error('short_desc')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
@@ -218,108 +189,63 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="long_desc">Long Description</label>
+                                                <label for="long_desc">Long Description<span class="text-danger"><b>*</b></span></label>
                                                 <textarea name="long_desc" id="long_desc" class="form-control elm1" style="min-height: 80px;" placeholder="Write a long description...">{{ config('theme.cdata.edit')?$data->long_desc:old('long_desc') }}</textarea>
                                                 @error('long_desc')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
                                             </div>
                                         </div>
-                                        {{-- <div class="col-md-12">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="additional_info">Additional Description</label>
-                                                <textarea name="additional_info" id="additional_info" class="form-control elm1" style="min-height: 80px;" placeholder="Additional Description">{{ config('theme.cdata.edit')?$data->additional_info:old('additional_info') }}</textarea>
+                                                <label for="shipping_return">Shipping Return Info<span class="text-danger"><b>*</b></span></label>
+                                                <textarea name="shipping_return" id="shipping_return" class="form-control" style="min-height: 80px;" placeholder="Write Shipping Return Info...">{{ config('theme.cdata.edit')?$data->shipping_return:old('shipping_return') }}</textarea>
+                                                @error('shipping_return')
+                                                <p class="text-danger pt-2">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="additional_info">Additional Info<span class="text-danger"><b>*</b></span></label>
+                                                <textarea name="additional_info" id="additional_info" class="form-control elm1" style="min-height: 80px;" placeholder="Write Additional Info...">{{ config('theme.cdata.edit')?$data->additional_info:old('additional_info') }}</textarea>
                                                 @error('additional_info')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
                                             </div>
-                                        </div> --}}
-                                    </div>
-                                </div>
-                                <div class="tab-pane p-3" id="meta_info_tab" role="tabpanel">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="meta_keywords">Meta Keywords</label>
-                                                <input type="text" name="meta_keywords" class="form-control" placeholder="Meta Keywords (e.g iPhone, mobile, brand)" value="{{ config('theme.cdata.edit')?$data->meta_keywords:old('meta_keywords') }}" required>
-                                                @error('meta_keywords')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="meta_title">Meta title</label>
-                                                <input type="text" name="meta_title" class="form-control" placeholder="Enter meta title" value="{{ config('theme.cdata.edit')?$data->meta_title:old('meta_title') }}" required>
-                                                @error('meta_title')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="meta_desc">Meta Description</label>
-                                                <textarea name="meta_desc" id="meta_desc" class="form-control" style="min-height: 80px;" placeholder="Write a meta description">{{ config('theme.cdata.edit')?$data->meta_desc:old('meta_desc') }}</textarea>
-                                                @error('meta_desc')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane p-3" id="status_tab" role="tabpanel">
+                                <div class="tab-pane p-3" id="color_attr__tab" role="tabpanel">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="featured_status" class="font-black">Featured Status</label>
-                                                <select name="featured_status" class="form-control" required>
-                                                    <option value="0" {{ config('theme.cdata.edit')?selected( $data->featured_status,false):null }}>Inactive</option>
-                                                    <option value="1" {{ config('theme.cdata.edit')?selected( $data->featured_status,true):null }}>Active</option>
+                                            <div class="form-group py-1">
+                                                <label for="color_id" class="font-black">Colors</label>
+                                                <select id="color_id" class="js-example-basic-single form-control" data-width="100%">
+                                                    <option selected disabled>-- Select Colors --</option>
+                                                    @foreach ($colors as $key=>$value)
+                                                        <option value="{{ $value->id }}">
+                                                            {{ $value->name }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
-                                                @error('featured_status')
+                                                @error('color_id')
                                                 <p class="text-danger pt-2">{{ $message }}</p>
                                                 @enderror
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="todays_deal_status" class="font-black">Today's Deal Status</label>
-                                                <select name="todays_deal_status" class="form-control" required>
-                                                    <option value="0" {{ config('theme.cdata.edit')?selected( $data->todays_deal_status,false):null }}>Inactive</option>
-                                                    <option value="1" {{ config('theme.cdata.edit')?selected( $data->todays_deal_status,true):null }}>Active</option>
-                                                </select>
-                                                @error('todays_deal_status')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="stock_status" class="font-black">stock_status</label>
-                                                <select name="stock_status" class="form-control" required>
-                                                    <option value="1" {{ config('theme.cdata.edit')?selected( $data->stock_status,true):null }}>In Stock</option>
-                                                    <option value="0" {{ config('theme.cdata.edit')?selected( $data->stock_status,false):null }}>Out Of Stock</option>
-                                                </select>
-                                                @error('stock_status')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="status" class="font-black">Status</label>
-                                                <select name="status" class="form-control" required>
-                                                    <option value="1" {{ config('theme.cdata.edit')?selected( $data->status,true):null }}>Active</option>
-                                                    <option value="0" {{ config('theme.cdata.edit')?selected( $data->status,false):null }}>Inactive</option>
-                                                </select>
-                                                @error('status')
-                                                <p class="text-danger pt-2">{{ $message }}</p>
-                                                @enderror
+                                            <div class="pb-2" id="selected_colors_area">
+                                                @if(isset($data) && $data->color_id != null)
+                                                @foreach (json_decode ($data->colors) as $color)
+                                                <span class="selected_color_item selected_color_item_{{ $color->id }} border-success rounded py-1 pr-2">
+                                                    <input type="text" name="color_id[]" class="color_input" value="{{ $color->id }}">
+                                                    <span>{{ $color->name }}</span>
+                                                    <span class="text-danger  selected_color_item_remove selected_color_item_remove_{{ $color->id }}" onclick="elementRemove('{{ $color->id }}')"><i class="bx bx-trash"></i></span>
+                                                </span>
+                                                @endforeach
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                {{-- <div class="tab-pane p-3" id="others_tab" role="tabpanel">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group py-1">
@@ -348,7 +274,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group py-1">
-                                                <div class="pt-2" id="selected_values_area">
+                                                <div id="selected_values_area">
                                                     @if(isset($data) && $data->attr_value_id != null)
                                                     @foreach (json_decode ($data->attr_values) as $attr_value)
                                                     <span class="selected_attr_value_item selected_attr_value_item_{{ $attr_value->id }} border-success rounded py-1 pr-2">
@@ -362,7 +288,35 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
+                                <div class="tab-pane p-3" id="status_tab" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="stock_status" class="font-black">Stock Status <span class="text-danger"><b>*</b></span></label>
+                                                <select name="stock_status" class="form-control">
+                                                    <option value="1" {{ config('theme.cdata.edit')?selected( $data->stock_status,true):null }}>In Stock</option>
+                                                    <option value="0" {{ config('theme.cdata.edit')?selected( $data->stock_status,false):null }}>Out Of Stock</option>
+                                                </select>
+                                                @error('stock_status')
+                                                <p class="text-danger pt-2">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="status" class="font-black">Status <span class="text-danger"><b>*</b></span></label>
+                                                <select name="status" class="form-control">
+                                                    <option value="1" {{ config('theme.cdata.edit')?selected( $data->status,true):null }}>Active</option>
+                                                    <option value="0" {{ config('theme.cdata.edit')?selected( $data->status,false):null }}>Inactive</option>
+                                                </select>
+                                                @error('status')
+                                                <p class="text-danger pt-2">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="text-center">
@@ -381,16 +335,16 @@
         <link rel="stylesheet" href="{{ admin_asset('libs/select2/css/select2.min.css') }}">
 
         <style>
-            .attr_value_input{
+            .color_input, .attr_value_input{
                 visibility: hidden;
                 width: 0px;
                 height: 0px;
             }
-            .selected_attr_value_item{
+            .selected_color_item, .selected_attr_value_item{
                 border: 1px solid;
                 margin: 3px;
             }
-            .selected_attr_value_item_remove{
+            .selected_color_item_remove, .selected_attr_value_item_remove{
                 cursor: pointer;
             }
         </style>
@@ -475,10 +429,37 @@
                 }
             });
 
+            // load color
+            $('#color_id').on('change', function (e) {
+                var color_id = $('#color_id').val();
+
+                if(color_id != null){
+                    axios.post('{{ route('home.color-details') }}', {
+                        id: color_id
+                    })
+                    .then(res => {
+                        if(res.data.status){
+                            $('#selected_colors_area').append('<span class="selected_color_item selected_color_item_'+res.data.data.id+' border-success rounded py-1 pr-2"><input type="text" name="color_id[]" class="color_input" value="'+res.data.data.id+'"><span>'+res.data.data.name+'</span><span class="text-danger  selected_color_item_remove selected_color_item_remove_'+res.data.data.id+'" onclick="elementRemove('+res.data.data.id+', \'color\')"><i class="bx bx-trash"></i></span></span>');
+                        }else{
+                            alert("No Data Found");
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                    })
+                }
+            });
+
             // element remove
-            function elementRemove(id){
-                $('.selected_attr_value_item_remove_' + id).parent('.selected_attr_value_item_' + id).remove();
+            function elementRemove(id, type = 'attr_value') {
+                if(type == 'color'){
+                    $('.selected_color_item_remove_' + id).parent('.selected_color_item_' + id).remove();
+                }else{
+                    $('.selected_attr_value_item_remove_' + id).parent('.selected_attr_value_item_' + id).remove();
+                }
             }
+
+
 
         </script>
     @endpush

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin\Color;
 use Illuminate\Http\Request;
 use App\Models\Admin\Product;
 use App\Models\Admin\Category;
-use App\Http\Controllers\Controller;
-use App\Models\Admin\AttributesSet;
 use App\Models\Admin\ProductImage;
+use App\Models\Admin\AttributesSet;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 
 class ProductController extends Controller
@@ -96,9 +97,10 @@ class ProductController extends Controller
         ]);
 
         $categories = Category::where('status', true)->get();
+        $colors = Color::where('status', true)->get();
         $attributes = AttributesSet::where('status', true)->get();
 
-        return \view('pages.admin.products.create_edit', ['categories' => $categories, 'attributes' => $attributes]);
+        return \view('pages.admin.products.create_edit', ['categories' => $categories, 'colors' => $colors, 'attributes' => $attributes]);
     }
 
     /**
@@ -112,42 +114,37 @@ class ProductController extends Controller
         $data = $request->validate([
             'name'               => ['required', 'string'],
             'slug'               => ['required', 'string', 'unique:products,slug'],
-            'category_id'        => ['nullable', 'integer', 'in:0,' . \collect(Category::all())->pluck('id')->implode(',')],
-            'unit'               => ['required', 'string'],
-            'min_order_qty'      => ['required', 'integer', 'min:1'],
-            'unit_price'         => ['required', 'regex:/^[0-9]+(\.[0-9][0-9]?)?$/'],
-            'sku'                => ['nullable', 'string', 'unique:products,sku'],
-            'shipping_days'      => ['nullable', 'integer', 'min:1'],
+            'category_id'        => ['nullable', 'integer', 'exists:categories,id'],
+            'price'              => ['required', 'integer', 'min:1'],
 
-            'thumbnail'          => ['required', 'mimes:png,jpg,jpeg,svg,gif', 'max:2024', 'dimensions:width=800,height=800'],
+            'short_desc'         => ['nullable', 'string'],
+            'long_desc'          => ['nullable', 'string'],
+            'shipping_return'          => ['nullable', 'string'],
+            'additional_info'          => ['nullable', 'string'],
 
-            'short_desc'         => ['required', 'string'],
-            'long_desc'          => ['required', 'string'],
-            'additional_info'    => ['nullable', 'string'],
-
-            'meta_title'         => ['nullable', 'string'],
-            'meta_desc'          => ['nullable', 'string'],
-            'meta_keywords'      => ['nullable', 'string'],
-
-            'featured_status'    => ['required', 'integer', 'in:0,1'],
-            'todays_deal_status' => ['required', 'integer', 'in:0,1'],
             'stock_status'       => ['required', 'integer', 'in:0,1'],
             'status'             => ['required', 'integer', 'in:0,1'],
 
-            'attr_value_id'      => ['nullable', 'array']
+            'color_id'           => ['nullable', 'array'],
+            'attr_value_id'      => ['nullable', 'array'],
+
+            'thumbnail'          => ['nullable', 'mimes:png,jpg,jpeg,svg,gif'],
         ]);
 
-        $data['thumbnail'] = upload_image($request, 'thumbnail', 'products/thumbnail');
+        if($data['thumbnail'] ?? null) $data['thumbnail'] = upload_image($request, 'thumbnail', 'products/thumbnail');
 
-        if (isset($data['attr_value_id'])) {
-            $data['attr_value_id'] = json_encode($data['attr_value_id']) ?? [];
-        }
+        if (isset($data['color_id'])) $data['color_id'] = json_encode($data['color_id']) ?? [];
+        if (isset($data['attr_value_id'])) $data['attr_value_id'] = json_encode($data['attr_value_id']) ?? [];
 
         // dd($data);
-        Product::create($data);
+        try {
+            Product::create($data);
+        } catch (\Throwable $th) {
+            Session::flash('error', 'Data Updating Issue!');
+            return \redirect()->back()->withInput();
+        }
 
-        // flash message
-        Session::flash('success', 'New Product Added.');
+        Session::flash('success', 'Product has been added!');
         return \redirect()->route('admin.products.index');
     }
 
@@ -191,9 +188,10 @@ class ProductController extends Controller
         ]);
 
         $categories = Category::where('status', true)->get();
+        $colors = Color::where('status', true)->get();
         $attributes = AttributesSet::where('status', true)->get();
 
-        return \view('pages.admin.products.create_edit', ['categories' => $categories, 'attributes' => $attributes, 'data' => $product]);
+        return \view('pages.admin.products.create_edit', ['categories' => $categories, 'colors' => $colors, 'attributes' => $attributes, 'data' => $product]);
     }
 
     /**
@@ -207,40 +205,37 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name'               => ['required', 'string'],
-            'slug'               => ['required', 'string', 'unique:products,slug,' . $product->id . ',id'],
-            'category_id'        => ['nullable', 'integer', 'in:0,' . \collect(Category::all())->pluck('id')->implode(',')],
-            'unit'               => ['required', 'string'],
-            'min_order_qty'      => ['required', 'integer', 'min:1'],
-            'unit_price'         => ['required', 'regex:/^[0-9]+(\.[0-9][0-9]?)?$/'],
-            'sku'                => ['nullable', 'string', 'unique:products,sku,' . $product->id . ',id'],
-            'shipping_days'      => ['nullable', 'integer', 'min:1'],
+            // 'slug'               => ['required', 'string', 'unique:products,slug'],
+            'category_id'        => ['nullable', 'integer', 'exists:categories,id'],
+            'price'              => ['required', 'integer', 'min:1'],
 
-            'thumbnail'          => ['mimes:png,jpg,jpeg,svg,gif', 'max:2024', 'dimensions:width=800,height=800'],
-
-            'short_desc'         => ['required', 'string'],
-            'long_desc'          => ['required', 'string'],
+            'short_desc'         => ['nullable', 'string'],
+            'long_desc'          => ['nullable', 'string'],
+            'shipping_return'    => ['nullable', 'string'],
             'additional_info'    => ['nullable', 'string'],
 
-            'meta_title'         => ['nullable', 'string'],
-            'meta_desc'          => ['nullable', 'string'],
-            'meta_keywords'      => ['nullable', 'string'],
-
-            'featured_status'    => ['required', 'integer', 'in:0,1'],
-            'todays_deal_status' => ['required', 'integer', 'in:0,1'],
             'stock_status'       => ['required', 'integer', 'in:0,1'],
             'status'             => ['required', 'integer', 'in:0,1'],
 
-            'attr_value_id'      => ['nullable', 'array']
+            'color_id'           => ['nullable', 'array'],
+            'attr_value_id'      => ['nullable', 'array'],
+
+            'thumbnail'          => ['nullable', 'mimes:png,jpg,jpeg,svg,gif'],
         ]);
 
-        $data['thumbnail'] = upload_image($request, 'thumbnail', 'products/thumbnail', $product->thumbnail);
+        if($data['thumbnail'] ?? null) $data['thumbnail'] = upload_image($request, 'thumbnail', 'products/thumbnail');
 
-        if (isset($data['attr_value_id']) && $data['attr_value_id'] != null) {
-            $data['attr_value_id'] = json_encode($data['attr_value_id']) ?? [];
-        }
+        if (isset($data['color_id'])) $data['color_id'] = json_encode($data['color_id']) ?? [];
+        if (isset($data['attr_value_id'])) $data['attr_value_id'] = json_encode($data['attr_value_id']) ?? [];
 
         // dd($data);
-        $product->update($data);
+        try {
+            $product->update($data);
+        } catch (\Throwable $th) {
+            // flash message
+            Session::flash('error', 'Data Updating Issue!');
+            return \redirect()->back();
+        }
 
         // flash message
         Session::flash('success', 'Product Updated Successfully.');
@@ -255,7 +250,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        // check order
+        // $product->delete();
     }
 
     // product image store
@@ -268,7 +264,13 @@ class ProductController extends Controller
         $data['product_image'] = upload_image($request, 'product_image', 'products/product_image');
 
         // dd($data);
-        ProductImage::create(['url' => $data['product_image'], 'product_id' => $product->id]);
+        try {
+            ProductImage::create(['url' => $data['product_image'], 'product_id' => $product->id]);
+        } catch (\Throwable $th) {
+            // flash message
+            Session::flash('success', 'Data Storing Issue!');
+            return \redirect()->back();
+        }
 
         // flash message
         Session::flash('success', 'Product Image Added Successfully.');

@@ -6,7 +6,6 @@ use App\Traits\WithCache;
 use App\Models\Admin\Color;
 use App\Models\Admin\AttributesValue;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
@@ -14,7 +13,21 @@ class Product extends Model
     use HasFactory, WithCache;
 
     protected static $cacheKey = '__products__';
-    protected $fillable = ['name', 'slug', 'unit', 'min_order_qty', 'unit_price', 'sku', 'shipping_days', 'short_desc', 'long_desc', 'additional_info', 'thumbnail', 'meta_title', 'meta_desc', 'meta_keywords', 'meta_image', 'featured_status', 'todays_deal_status', 'stock_status', 'status', 'category_id', 'attr_value_id'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'price',
+        'short_desc',
+        'long_desc',
+        'shipping_return',
+        'additional_info',
+        'thumbnail',
+        'stock_status',
+        'status',
+        'attr_value_id',
+        'color_id',
+        'category_id'
+    ];
 
     // category
     public function category()
@@ -31,8 +44,8 @@ class Product extends Model
     // get colors
     public function getColorsAttribute()
     {
-        // dd($this->attr_value_id);
-        $ids = json_decode($this->attr_value_id);
+        // dd($this->color_id);
+        $ids = json_decode($this->color_id);
         if ($ids) {
             return Color::whereIn('id', $ids)->get();
         }
@@ -49,7 +62,6 @@ class Product extends Model
         }
         return [];
     }
-
 
 
 }

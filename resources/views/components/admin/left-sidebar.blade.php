@@ -59,7 +59,7 @@
                 </li>
                 @endif
 
-                {{-- @if (can('colors') or can('attributes_sets') or can('attributes_values'))
+                @if (can('colors') or can('attributes_sets') or can('attributes_values'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="bx bx-menu"></i> <span> Basics </span> <span class="menu-arrow float-right"><i class="bx bx-chevron-right"></i></span></a>
                     <ul class="list-unstyled">
@@ -86,7 +86,7 @@
                         @endcan
                     </ul>
                 </li>
-                @endif --}}
+                @endif
 
                 @can('sliders')
                 <li>
