@@ -297,6 +297,7 @@ use App\Http\Controllers\Admin\Setting\SettingController;
         Route::prefix('orders')->group(function () {
             Route::get('/', [OrderController::class, 'index'])->name('admin.orders.index');
             Route::get('/{order}/details', [OrderController::class, 'orderDetails'])->name('admin.orders.details');
+            Route::get('/{order}/invoice', [OrderController::class, 'invoice'])->name('admin.orders.invoice');
             Route::put('/{order}/payment-confirmed', [OrderController::class, 'paymentConfirmed'])->name('admin.orders.payment-confirmed');
             Route::put('/{order}/status-update', [OrderController::class, 'statusUpdate'])->name('admin.orders.status-update');
         }); //end orders group

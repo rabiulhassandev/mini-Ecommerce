@@ -78,7 +78,34 @@ class OrderController extends Controller
             ]
         ]);
 
-        return \view('pages.admin.orders.details', \compact('order'));
+        return \view('pages.admin.orders.details', ['item' => $order]);
+    }
+
+    
+    /**
+     * 
+     * Invoice
+     */
+    public function invoice(Order $order){
+        \config_set('theme.cdata', [
+            'title'      => 'Invoice',
+            'breadcrumb' => [
+                [
+                    'name' => 'Dashboard',
+                    'link' => route('admin.dashboard')
+                ],
+                [
+                    'name' => 'Orders',
+                    'link' => route('admin.orders.index')
+                ],
+                [
+                    'name' => 'Invoice',
+                    'link' => false
+                ],
+            ]
+        ]);
+
+        return \view('pages.admin.orders.invoice', ['item' => $order]);
     }
 
     /**
