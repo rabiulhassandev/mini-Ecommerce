@@ -16,20 +16,21 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('slug')->unique();
             $table->float('price')->nullable();
             $table->string('sku')->nullable();
-
-
+            
+            
             $table->longText('short_desc')->nullable();
             $table->longText('long_desc')->nullable();
             $table->longText('shipping_return')->nullable();
             $table->longText('additional_info')->nullable();
-
+            
             $table->string('thumbnail')->nullable();
-
+            
             $table->boolean('stock_status')->default(true);
             $table->boolean('status')->default(true);
-
+            
             $table->json('color_id')->nullable();
             $table->json('attr_value_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();

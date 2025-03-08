@@ -26,7 +26,7 @@ class SettingSeeder extends Seeder
             [
                 'display_name' => 'Title',
                 'key'        => 'site.title',
-                'value'        => 'Laravel Application',
+                'value'        => 'Mini E-Commerce',
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text',
@@ -76,7 +76,7 @@ class SettingSeeder extends Seeder
             [
                 'display_name' => 'Currency',
                 'key'        => 'site.currency',
-                'value'        => "৳",
+                'value'        => "﷼",
                 'details'      => '[]',
                 'note'      => "",
                 'type'         => 'text',
@@ -95,23 +95,13 @@ class SettingSeeder extends Seeder
 
 
             [
-                'display_name' => 'Hotline',
-                'key'        => 'contact.hotline',
+                'display_name' => 'Phone',
+                'key'        => 'contact.phone',
                 'value'        => "(+123) 456 789",
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text',
                 'order'        => 6,
-                'group'        => 'Contact',
-            ],
-            [
-                'display_name' => 'Hotline 2',
-                'key'        => 'contact.hotline2',
-                'value'        => "(+123) 666 888",
-                'details'      => '[]',
-                'note'      => \null,
-                'type'         => 'text',
-                'order'        => 5,
                 'group'        => 'Contact',
             ],
             [

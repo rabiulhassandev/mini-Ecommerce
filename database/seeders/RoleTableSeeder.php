@@ -42,12 +42,14 @@ class RoleTableSeeder extends Seeder
             'attributes_sets',
             // attributes values
             'attributes_values',
+            // sliders
+            'sliders',
             // categories
             'categories',
             // products
             'products',
-            // sliders
-            'sliders',
+            // orders
+            'orders'
         ];
 
         $role = [
@@ -79,9 +81,10 @@ class RoleTableSeeder extends Seeder
             'colors',
             'attributes_sets',
             'attributes_values',
+            'sliders',
             'categories',
             'products',
-            'sliders',
+            'orders',
         ]);
         $user->givePermissionTo([]);
 

@@ -21,23 +21,6 @@
                         <span> Dashboard </span>
                     </a>
                 </li>
-                @can('categories')
-                <li>
-                    <a href="{{ route('admin.categories.index') }}" class="waves-effect">
-                        <i class='bx bx-bar-chart-alt-2'></i>
-                        <span> Categories </span>
-                    </a>
-                </li>
-                @endcan
-                @can('products')
-                <li>
-                    <a href="{{ route('admin.products.index') }}" class="waves-effect">
-                        <i class='bx bx-cart'></i>
-                        <span> Products </span>
-                    </a>
-                </li>
-                @endcan
-
 
                 @if (can('user_browse') or can('role_browse') or can('permission_browse'))
                 <li class="has_sub">
@@ -59,6 +42,7 @@
                 </li>
                 @endif
 
+                
                 @if (can('colors') or can('attributes_sets') or can('attributes_values'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="bx bx-menu"></i> <span> Basics </span> <span class="menu-arrow float-right"><i class="bx bx-chevron-right"></i></span></a>
@@ -87,6 +71,33 @@
                     </ul>
                 </li>
                 @endif
+
+                @can('categories')
+                <li>
+                    <a href="{{ route('admin.categories.index') }}" class="waves-effect">
+                        <i class='bx bx-bar-chart-alt-2'></i>
+                        <span> Categories </span>
+                    </a>
+                </li>
+                @endcan
+                @can('products')
+                <li>
+                    <a href="{{ route('admin.products.index') }}" class="waves-effect">
+                        <i class='bx bx-cart'></i>
+                        <span> Products </span>
+                    </a>
+                </li>
+                @endcan
+                @can('orders')
+                <li>
+                    <a href="{{ route('admin.orders.index') }}" class="waves-effect">
+                        <i class='bx bx-cart'></i>
+                        <span> Orders </span>
+                    </a>
+                </li>
+                @endcan
+
+
 
                 @can('sliders')
                 <li>

@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\PageBuilderController;
 use App\Http\Controllers\Admin\AttributesSetController;
 use App\Http\Middleware\UserStatusRestrictionMiddleware;
 use App\Http\Controllers\Admin\AttributesValueController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 
 /**
@@ -287,6 +288,18 @@ use App\Http\Controllers\Admin\Setting\SettingController;
             Route::get('/{productImage}/product-image-delete', [ProductController::class, 'productImageDelete'])->name('admin.products.product-image-delete');
             Route::delete('/{product}/delete', [ProductController::class, 'destroy'])->name('admin.products.delete');
         }); //end products group
+
+        /**
+         * ----------------------------------------------------------
+         * Orders Management
+         * ----------------------------------------------------------
+         */
+        Route::prefix('orders')->group(function () {
+            Route::get('/', [OrderController::class, 'index'])->name('admin.orders.index');
+            Route::get('/{order}/details', [OrderController::class, 'orderDetails'])->name('admin.orders.details');
+            Route::put('/{order}/payment-confirmed', [OrderController::class, 'paymentConfirmed'])->name('admin.orders.payment-confirmed');
+            Route::put('/{order}/status-update', [OrderController::class, 'statusUpdate'])->name('admin.orders.status-update');
+        }); //end orders group
 
 
         /**
