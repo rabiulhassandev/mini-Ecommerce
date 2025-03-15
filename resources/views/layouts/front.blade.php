@@ -46,6 +46,9 @@
     <script src="{{admin_asset('libs/sweet-alert2/sweetalert2.min.js')}}"></script>
     <script src="{{admin_asset('libs/toastr/toastr.min.js')}}"></script>
 
+    
+    <script src="{{ front_asset('js/cart.min.js') }}"></script>
+
     {{-- <script>
         $(document).ready(function () {
             if ($("#session_success").val()) {

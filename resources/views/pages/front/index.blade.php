@@ -91,7 +91,6 @@
         <link rel="stylesheet" href="{{ front_asset('css/index.min.css') }}">
     @endpush
     @push('extra-scripts')
-        <script src="{{ front_asset('js/cart.min.js') }}"></script>
 
         <script>
             // swiper carousel start here

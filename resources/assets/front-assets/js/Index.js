@@ -121,39 +121,30 @@ const displayItems = () => {
         productList.innerHTML = "";
         products.forEach((product) => {
             const productCard = document.createElement("div");
-            productCard.classList.add(
-                "col-lg-3",
-                "col-md-4",
-                "col-sm-6",
-                "col-12",
-                "mb-4",
-            );
+            productCard.classList.add("col-lg-3", "col-md-4", "col-6", "mb-4");
             productCard.innerHTML = `
-                <a href="../pages/product_detail.html?id=${
-                    product.id
-                }" class="text-decoration-none text-dark">
                 <div class="card mb-2">
-                    <div class="img-container">
-                        <img src="${
-                            product.productImg ? product.productImg : ""
-                        }" class="w-100 card-img-top card-image" />
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title mb-1 text-center">${
-                            product.productName
-                        }</h5>
-                        <h6 class="mb-1 text-center">$${product.price}</h6>
-                    </div>
-                    <div class="pb-3 px-2 btn-group border-0 d-flex justify-content-center text-muted">
-                        <a href="../pages/product_detail.html?id=${
-                            product.id
-                        }" role="button" class="productDetail btn rounded-1 btn rounded-end-0 border border-end-0">Details</a>
-                        <button role="button" class="AddToCart text-nowrap overflow-hidden btn border rounded-start-0 rounded-1">
+                    <a href="../pages/product_detail.html" class="text-decoration-none text-dark"> 
+                        <div class="img-container">
+                            <img src="${
+                                product.productImg ? product.productImg : ""
+                            }" class="w-100 card-img-top card-image" />
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-1 text-center">${
+                                product.productName
+                            }</h5>
+                            <h6 class="mb-1 text-center card-price">$${
+                                product.price
+                            }</h6>
+                        </div>
+                    </a>
+                    <div class="pb-2 px-2 btn-group border-0 d-flex justify-content-center text-muted">
+                        <button role="button" class="AddToCart text-nowrap overflow-hidden btn border rounded-1">
                             <i class="fa-solid fa-cart-plus"></i> Add to Cart
                         </button>
                     </div>
                 </div>
-                </a>
             `;
 
             // Add event listener to the "Add to Cart" button

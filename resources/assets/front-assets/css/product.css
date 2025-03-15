@@ -12,12 +12,19 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
 }
+.card-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+.card-price {
+    font-size: 20px;
+}
 .card:hover {
     border: 1px solid #558cc7;
 }
 .img-container {
     width: 100%;
-    max-height: 180px;
+    max-height: 160px;
     overflow: hidden;
 }
 .card-image {
@@ -72,12 +79,12 @@
     background: #558cc7 !important;
     color: #fff !important;
 }
-.AddToCart:hover {
-    background: #558cc7 !important;
-    color: #fff !important;
+.AddToCart {
+    font-size: 15px;
 }
-.AddToCart:hover .fa-cart-plus {
-    color: rgb(203, 188, 67);
+.AddToCart:hover {
+    background: #2f4862 !important;
+    color: #fff !important;
 }
 .color-radio {
     width: 25px;
@@ -145,6 +152,12 @@
         width: 70px;
         height: 70px;
         margin: 7px;
+    }
+    .card-title {
+        font-size: 13px;
+    }
+    .card-price {
+        font-size: 15px;
     }
 }
 @media screen and (max-width: 990px) {

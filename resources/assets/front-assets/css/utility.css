@@ -4,6 +4,10 @@
     scroll-behavior: smooth;
     transition: 0.2s;
 }
+#checkoutBtn {
+    background: #369bb1;
+    color: #fff;
+}
 .reguler-btn {
     background: rgba(83, 63, 106, 0.884);
 }
