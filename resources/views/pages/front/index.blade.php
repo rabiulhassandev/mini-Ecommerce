@@ -1,144 +1,118 @@
 <x-front-layout>
-    <div class="container">
 
-
-        <!--MAIN SLIDE-->
-        @if(isset($collection['slider']) && count($collection['slider']) > 0)
-        <div class="wrap-main-slide">
-            <div class="slide-carousel owl-carousel style-nav-1" id="slider_carousel" data-items="1" data-loop="1" data-nav="true" data-dots="false" data-autoplay="true">
-                @foreach ($collection['slider'] as $slider)
-                <div class="item-slide">
-                    <img src="{{ image_url($slider->image), admin_asset('images/no-image/970x400.png') }}" alt="{{ $slider->title }}" title="{{ $slider->title }}" class="img-slide">
-                </div>
-                @endforeach
+    <!-- services start -->
+    <section id="services">
+        <div class="container">
+        <div>
+            <div class="row align-items-center about-text">
+                <p class="services-title col-12 col-md-6 fw-semibold lh-1">Our <br> Services</p>
+                <p class="services-desc col-12 col-md-6 fw-light ">"Discover a unique marketplace where seamless
+                    transactions
+                    meet curated variety, offering you exclusive products at your fingertips."</p>
             </div>
         </div>
-        @endif
-
-        <!--Categories-->
-        @if (isset($categories) && count($categories) > 0)
-        <div class="mt-50">
-            <div class="section-title-box" style="margin-bottom: 5px;">
-                <h5 class="m-0 f-16"><b>ক্যাটাগরি সমূহ</b></h5>
-                <a href="{{ route('home.categories') }}">সমস্ত দেখুন &nbsp; <i class="fa fa-arrow-right"></i> </a>
-            </div>
-            <div class="grid-6">
-                @foreach ($categories as $category)
-                <div class="card">
-                    <a href="{{ route('home.category-details', [$category->id, $category->slug]) }}">
-                        <div class="card-body">
-                            <img src="{{ image_url($category->thumbnail, admin_asset('images/no-image/150x150.png')) }}" alt="{{ $category->name }}" loading="lazy" >
-                            <h5><b>{{ $category->name }}</b></h5>
-                        </div>
+        <div class="row p-2 p-lg-5 business-card">
+            <div class="col-6 col-md-3 mt-3 mt-md-0 d-flex">
+                <div class="product-card card-body  rounded-4 border border-5 border-primary-subtle">
+                    <img
+                    src="https://img.freepik.com/free-vector/hand-customer-picking-category-internet-store-tablet-with-online-clothing-shop-screen-flat-vector-illustration-sale-online-shopping-ecommerce-concept-banner-landing-web-page_74855-24709.jpg"
+                    class=" rounded-top-3 object-fit-cover mx-auto opacity-75">
+                    <p class="text-center m-0 bg-primary-subtle py-3 rounded-bottom-3">
+                    <a href="./pages/product.html"
+                        class="product-card-link text-decoration-none text-dark text-md w-100%">Online
+                        Shopping
                     </a>
+                    </p>
                 </div>
-                @endforeach
+            </div>
+            <div class="col-6 col-md-3 mt-3 mt-md-0 d-flex">
+                <div class="product-card card-body rounded-4 border border-5 border-primary-subtle">
+                    <img src="https://unblast.com/wp-content/uploads/2020/09/Tailor-Vector-Illustration.jpg"
+                    class=" rounded-top-3 object-fit-cover mx-auto opacity-75" style="height: 10rem; width: 100%;">
+                    <p class="text-center m-0 bg-warning-subtle py-3 rounded-bottom-3">
+                    <a href="#" class="product-card-link text-decoration-none text-dark text-md w-100%">Sarah
+                        Tailor</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mt-3 mt-md-0 d-flex">
+                <div class="product-card card-body rounded-4 border border-5 border-primary-subtle">
+                    <img
+                    src="https://img.freepik.com/premium-vector/hand-drawn-call-center-characters-with-smartphones-concept-online-support-flat-style-isolated-background_1375-28728.jpg?semt=ais_hybrid"
+                    class=" rounded-top-3 object-fit-cover mx-auto opacity-75" style="height: 10rem; width: 100%;">
+                    <p class="text-center m-0 bg-danger-subtle py-3 rounded-bottom-3">
+                    <a href="#" class="product-card-link text-decoration-none text-dark text-md w-100%">Contact Us</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 mt-3 mt-md-0 d-flex">
+                <div class="product-card card-body rounded-4 border border-5 border-primary-subtle">
+                    <img
+                    src="https://media.istockphoto.com/id/1355378550/vector/megaphone-hand-business-concept-with-text-upcoming-events-vector-stock-illustration.jpg?s=612x612&w=0&k=20&c=D8iICHXW2Nq6RDruZvPzdsSHeo55ey8LrBoaydzM3Kk="
+                    class=" rounded-top-3 object-fit-cover mx-auto opacity-75" style="height: 10rem; width: 100%;">
+                    <p class="text-center m-0 bg-success-subtle py-3 rounded-bottom-3">
+                    <a href="#" class="product-card-link text-decoration-none text-dark text-md w-100%">Upcoming
+                        Features</a>
+                    </p>
+                </div>
             </div>
         </div>
-        @endif
-
-
-        <!--Today's Deals-->
-        @if (isset($products['todays_deals']) && count($products['todays_deals']) > 0)
-        <div class="mt-50">
-            <div class="section-title-box">
-                <h5 class="m-0 f-16"><b>আজকের অফার</b></h5>
-                <a href="{{ route('home.products.todays-deal') }}">সমস্ত দেখুন &nbsp; <i class="fa fa-arrow-right"></i> </a>
-            </div>
-            <div class="wrap-products slide-carousel owl-carousel style-nav-1 equal-container " data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"2"},"768":{"items":"3"},"992":{"items":"4"},"1200":{"items":"5"}}'>
-
-                @foreach ($products['todays_deals'] as $product)
-                <div class="product product-style-2 equal-elem ">
-                    <div class="product-thumnail">
-                        <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" title="{{ $product->name }}">
-                            <figure><img src="{{ image_url($product->thumbnail, admin_asset('images/no-image/800x800.png')) }}" width="800" height="800" alt="{{ $product->name }}" loading="lazy" ></figure>
-                        </a>
-                        <div class="wrap-btn">
-                            <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" class="function-link">বিস্তারিত দেখুন</a>
-                        </div>
+        </div>
+        <h4 class="text-center mt-5">Featured Products</h4>
+        <div class=" container mt-3">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide bg-primary-subtle rounded-2">
+                        <img class="rounded-2"
+                        src="https://images.unsplash.com/photo-1614850715649-1d0106293bd1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmFja2dyb3VuZCUyMGNvdmVyfGVufDB8fDB8fHww"
+                        alt="">
                     </div>
-                    <div class="product-info">
-                        <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" class="product-name"><span>{{ $product->name }}</span></a>
-                        <div class="wrap-price color-danger">{{ setting('site.currency') }}<span class="product-price color-danger size-18">{{ en2bn($product->unit_price) }}</span></div>
+                    <div class="swiper-slide bg-danger-subtle rounded-2">
+                        <img class="rounded-2"
+                        src="https://images.unsplash.com/photo-1741279356442-881e0935e230?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8"
+                        alt="">
                     </div>
+                    <div class="swiper-slide bg-success-subtle rounded-2">
+                        <img
+                        src="https://images.unsplash.com/photo-1741290606668-c367b34d3d4a?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw3fHx8ZW58MHx8fHx8"
+                        alt="">
+                    </div>
+
                 </div>
-                @endforeach
-
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
             </div>
         </div>
-        @endif
+    </section>
+    <!-- services end -->
 
-        <!--Featured Products-->
-        @if (isset($products['featured']) && count($products['featured']) > 0)
-        <div class="mt-50">
-            <div class="section-title-box">
-                <h5 class="m-0 f-16"><b>বাছাইকৃত পণ্য</b></h5>
-                <a href="{{ route('home.products.featured') }}">সমস্ত দেখুন &nbsp; <i class="fa fa-arrow-right"></i> </a>
-            </div>
-            <div class="wrap-products slide-carousel owl-carousel style-nav-1 equal-container " data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"2"},"768":{"items":"3"},"992":{"items":"4"},"1200":{"items":"5"}}'>
-                @foreach ($products['featured'] as $product)
-                <div class="product product-style-2 equal-elem ">
-                    <div class="product-thumnail">
-                        <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" title="{{ $product->name }}">
-                            <figure><img src="{{ image_url($product->thumbnail, admin_asset('images/no-image/800x800.png')) }}" width="800" height="800" alt="{{ $product->name }}" loading="lazy" ></figure>
-                        </a>
-                        <div class="wrap-btn">
-                            <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" class="function-link">বিস্তারিত দেখুন</a>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" class="product-name"><span>{{ $product->name }}</span></a>
-                        <div class="wrap-price color-danger">{{ setting('site.currency') }}<span class="product-price color-danger size-18">{{ en2bn($product->unit_price) }}</span></div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-
-        <!--Products-->
-        @if (isset($products['products']) && count($products['products']) > 0)
-        <div class="mt-50">
-            <div class="section-title-box">
-                <h5 class="m-0 f-16"><b>প্রোডাক্ট সমূহ</b></h5>
-                <a href="{{ route('home.products') }}">সমস্ত দেখুন &nbsp; <i class="fa fa-arrow-right"></i> </a>
-            </div>
-            <div class="wrap-products slide-carousel owl-carousel style-nav-1 equal-container " data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"2"},"768":{"items":"3"},"992":{"items":"4"},"1200":{"items":"5"}}'>
-
-                @foreach ($products['products'] as $product)
-                <div class="product product-style-2 equal-elem ">
-                    <div class="product-thumnail">
-                        <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" title="{{ $product->name }}">
-                            <figure><img src="{{ image_url($product->thumbnail, admin_asset('images/no-image/800x800.png')) }}" width="800" height="800" alt="{{ $product->name }}" loading="lazy" ></figure>
-                        </a>
-                        <div class="wrap-btn">
-                            <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" class="function-link">বিস্তারিত দেখুন</a>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <a href="{{ route('home.product-details', [$product->id, $product->slug]) }}" class="product-name"><span>{{ $product->name }}</span></a>
-                        <div class="wrap-price color-danger">{{ setting('site.currency') }}<span class="product-price color-danger size-18">{{ en2bn($product->unit_price) }}</span></div>
-                    </div>
-                </div>
-                @endforeach
-
-            </div>
-        </div>
-        @endif
-    </div>
-
+    @push('extra-styles')
+        <link rel="stylesheet" href="{{ front_asset('css/index.min.css') }}">
+    @endpush
     @push('extra-scripts')
+        <script src="{{ front_asset('js/cart.min.js') }}"></script>
+
         <script>
-            $('#slider_carousel').owlCarousel({
-                items:1,
-                loop:true,
-                nav:true,
-                autoplay:true,
-                autoplayTimeout:2000,
-                autoplayHoverPause:true
+            // swiper carousel start here
+            var swiper = new Swiper(".mySwiper", {
+                slidesPerView: 1,
+                spaceBetween: 30,
+                speed: 1500,
+                loop: true,
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
             });
         </script>
     @endpush
-
 </x-front-layout>

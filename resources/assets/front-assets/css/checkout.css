@@ -1,0 +1,33 @@
+.custom-radio label {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.custom-radio input:checked + label {
+    background-color: #eef4ff;
+    border-color: #007bff;
+}
+
+.payment-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 12px;
+    background-color: #eef4ff;
+}
+
+.btn-complete {
+    width: 100%;
+    font-size: 18px;
+    padding: 12px;
+}
+.checkout-product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+}

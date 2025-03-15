@@ -19,9 +19,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PassResetController;
-use Symfony\Component\Console\Input\Input;
-use App\Http\Controllers\RedirectController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/categories', [HomeController::class, 'categories'])->name('home.categories');

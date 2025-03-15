@@ -26,6 +26,8 @@ class HomeController extends Controller
 
     public function index()
     {
+        return view('pages.front.index');
+
         $this->seo()->setTitle("হোম পেইজ");
 
         $collection['slider'] = Slider::where('status', true)->orderBy('order')->get();
