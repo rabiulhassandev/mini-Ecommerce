@@ -21,12 +21,8 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('/categories', [HomeController::class, 'categories'])->name('home.categories');
-Route::get('/categories/{category}/{slug}', [HomeController::class, 'categoryDetails'])->name('home.category-details');
 Route::get('/products', [HomeController::class, 'products'])->name('home.products');
-Route::get('/products/todays-deal', [HomeController::class, 'todaysDealProducts'])->name('home.products.todays-deal');
-Route::get('/products/featured', [HomeController::class, 'featuredProducts'])->name('home.products.featured');
-Route::get('/products/{product}/{slug}', [HomeController::class, 'productDetails'])->name('home.product-details');
+Route::get('/products/{slug}', [HomeController::class, 'productDetails'])->name('home.product-details');
 Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('home.contact-us');
 Route::get('/page/{slug}', [HomeController::class, 'page'])->name('home.page');
 

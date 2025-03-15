@@ -89,27 +89,6 @@
         <link rel="stylesheet" href="{{ front_asset('css/index.min.css') }}">
     @endpush
     @push('extra-scripts')
-
-        <script>
-            // swiper carousel start here
-            var swiper = new Swiper(".mySwiper", {
-                slidesPerView: 1,
-                spaceBetween: 30,
-                speed: 1500,
-                loop: true,
-                pagination: {
-                    el: ".swiper-pagination",
-                    clickable: true,
-                },
-                autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false,
-                },
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-            });
-        </script>
+        <script src="{{ front_asset('js/slider.min.js') }}"></script>
     @endpush
 </x-front-layout>

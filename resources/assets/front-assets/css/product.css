@@ -1,26 +1,33 @@
 /*----------------------------------------PRODUCT PAGE DESIGN-------------------------------------
 -------------------------------------------------------------------------------------------------*/
-* {
-    scroll-behavior: smooth;
-}
 #productPage {
-    background: #e7fff546;
+    /* background: #e7fff546; */
+    background: white;
 }
 .card {
-    background: #e0e7fd3a !important;
+    border: 0px;
+    /* background: #e0e7fd3a !important; */
     overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s all;
+    -webkit-transition: transform 0.3s all;
+    -moz-transition: transform 0.3s all;
+    -ms-transition: transform 0.3s all;
+    -o-transition: transform 0.3s all;
 }
 .card-title {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 400;
 }
 .card-price {
     font-size: 20px;
+    font-weight: 600;
+    color: #0f5795;
 }
 .card:hover {
-    border: 1px solid #558cc7;
+    /* border: 1px solid #558cc7; */
+    box-shadow: 0px 0px 15px #3a3a3a57;
+    border: 0px !important;
 }
 .img-container {
     width: 100%;
@@ -37,23 +44,14 @@
     transform: scale(1.05);
 }
 .category-btn {
-    margin: 5px;
+    margin: 3px;
     padding: 10px;
     border: none;
     background-color: #adcfee7f;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
-#categoryContainer {
-    margin-bottom: 20px;
-    height: 55px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    text-wrap: nowrap;
-}
-#categoryContainer::-webkit-scrollbar {
-    display: none;
-}
+
 .category-btn {
     color: #000;
     border-radius: 5px;

@@ -1,0 +1,22 @@
+* {
+    scroll-behavior: smooth;
+}
+
+
+#main{
+    min-height: 85vh;
+}
+
+.pagination {
+    background: white ;
+}
+
+.pagination_box nav{
+    background: white;
+    display: inline-flex;
+    padding: 10px;
+}
+
+.pagination_box nav ul{
+    transform: scale(1.1);
+}

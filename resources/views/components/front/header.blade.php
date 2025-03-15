@@ -29,10 +29,33 @@
           </div>
           <div class="offcanvas-body">
              <ul class="navbar-nav ms-auto">
-                <li class="nav-item mx-4 h6"><a href="{{ route('home.index') }}" class="nav-link px-2">Services</a></li>
-                <li class="nav-item mx-4 h6"><a href="{{ route('home.products') }}" class="nav-link px-2">Products</a></li>
-                <li class="nav-item mx-4 h6"><a href="{{ route('home.contact-us') }}" class="nav-link px-2">Contact</a></li>
-                <li class="nav-item mx-4 h6"><a href="{{ route('login') }}" class="nav-link px-2">Login</a></li>
+                <li class="nav-item mx-4 h6">
+                    <a href="{{ route('home.index') }}" 
+                       class="nav-link px-2 {{ request()->routeIs('home.index') ? 'active' : '' }}">
+                       Services
+                    </a>
+                </li>
+                
+                <li class="nav-item mx-4 h6">
+                    <a href="{{ route('home.products') }}" 
+                       class="nav-link px-2 {{ request()->routeIs('home.products') ? 'active' : '' }}">
+                       Products
+                    </a>
+                </li>
+                
+                <li class="nav-item mx-4 h6">
+                    <a href="{{ route('home.contact-us') }}" 
+                       class="nav-link px-2 {{ request()->routeIs('home.contact-us') ? 'active' : '' }}">
+                       Contact
+                    </a>
+                </li>                
+                <li class="nav-item mx-4 h6">
+                    @auth
+                        <a href="{{ route('admin.dashboard') }}" class="nav-link px-2">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="nav-link px-2">Login</a>
+                    @endauth
+                </li>
                 <li class="nav-item mx-4">
                    <!-- cart for large device atart-->
                    <button data-bs-toggle="offcanvas" data-bs-target="#desktopCartOffcanvas"

@@ -224,9 +224,9 @@ class ProductController extends Controller
         ]);
 
         if($data['thumbnail'] ?? null) $data['thumbnail'] = upload_image($request, 'thumbnail', 'products/thumbnail');
+        $data['color_id'] = isset($data['color_id']) ? json_encode($data['color_id']) : null;
+        $data['attr_value_id'] = isset($data['attr_value_id']) ? json_encode($data['attr_value_id']) : null;
 
-        if (isset($data['color_id'])) $data['color_id'] = json_encode($data['color_id']) ?? [];
-        if (isset($data['attr_value_id'])) $data['attr_value_id'] = json_encode($data['attr_value_id']) ?? [];
 
         // dd($data);
         try {

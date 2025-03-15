@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="{{ admin_asset('libs/sweet-alert2/sweetalert2.min.css') }}">
     <!-- toastr Css -->
     <link rel="stylesheet" href="{{ admin_asset('libs/toastr/toastr.min.css') }}">
-
+    
+    {{-- Style CSS --}}
+    <link rel="stylesheet" href="{{ front_asset('css/style.min.css') }}">
 
    @stack('extra-styles')
 </head>
@@ -45,9 +47,6 @@
 
     <script src="{{admin_asset('libs/sweet-alert2/sweetalert2.min.js')}}"></script>
     <script src="{{admin_asset('libs/toastr/toastr.min.js')}}"></script>
-
-    
-    <script src="{{ front_asset('js/cart.js') }}"></script>
 
     {{-- <script>
         $(document).ready(function () {
