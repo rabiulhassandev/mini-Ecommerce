@@ -26,7 +26,7 @@ class SettingSeeder extends Seeder
             [
                 'display_name' => 'Title',
                 'key'        => 'site.title',
-                'value'        => 'Mini E-Commerce',
+                'value'        => 'Mini Bazar',
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text',
@@ -36,7 +36,7 @@ class SettingSeeder extends Seeder
             [
                 'display_name' => 'Description',
                 'key'        => 'site.description',
-                'value'        => "Meta Description Here",
+                'value'        => "\"Discover a unique marketplace where seamless transactions meet curated variety, offering you exclusive products at your fingertips.\"",
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text_area',

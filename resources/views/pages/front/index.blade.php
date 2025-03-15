@@ -6,9 +6,7 @@
         <div>
             <div class="row align-items-center about-text">
                 <p class="services-title col-12 col-md-6 fw-semibold lh-1">Our <br> Services</p>
-                <p class="services-desc col-12 col-md-6 fw-light ">"Discover a unique marketplace where seamless
-                    transactions
-                    meet curated variety, offering you exclusive products at your fingertips."</p>
+                <p class="services-desc col-12 col-md-6 fw-light ">{{ setting('site.description') }}</p>
             </div>
         </div>
         <div class="row p-2 p-lg-5 business-card">
@@ -18,7 +16,7 @@
                     src="https://img.freepik.com/free-vector/hand-customer-picking-category-internet-store-tablet-with-online-clothing-shop-screen-flat-vector-illustration-sale-online-shopping-ecommerce-concept-banner-landing-web-page_74855-24709.jpg"
                     class=" rounded-top-3 object-fit-cover mx-auto opacity-75">
                     <p class="text-center m-0 bg-primary-subtle py-3 rounded-bottom-3">
-                    <a href="./pages/product.html"
+                    <a href="{{ route('home.products') }}"
                         class="product-card-link text-decoration-none text-dark text-md w-100%">Online
                         Shopping
                     </a>

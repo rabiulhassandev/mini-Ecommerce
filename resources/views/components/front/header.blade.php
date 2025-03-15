@@ -1,7 +1,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-md shadow-sm">
     <div class="container">
-       <a href="{{ route('home.index') }}" class="navbar-brand fw-bold text-light text-uppercase">Mini Bazar</a>
+       <a href="{{ route('home.index') }}" class="navbar-brand fw-bold text-light text-uppercase">{{ setting('site.title') }}</a>
        <!-- <img src="" alt=""> -->
        <div class="d-flex">
           <button class="btn navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#openSidebar"
@@ -23,7 +23,7 @@
           aria-labelledby="openSidebarLabel">
           <div class="offcanvas-header">
              <a href="{{ route('home.index') }}" class="offcanvas-title text-white text-decoration-none"
-                id="openSidebarLabel">Mini Bazar</a>
+                id="openSidebarLabel">{{ setting('site.title') }}</a>
              <button style="color: red !important;" type="button" class="btn-close" data-bs-dismiss="offcanvas"
                 aria-label="Close"></button>
           </div>
@@ -55,9 +55,11 @@
  <!-- Offcanvas for Desktop Cart -->
  <div class="offcanvas offcanvas-end px-1" data-bs-scroll="true" tabindex="-1" id="desktopCartOffcanvas"
     aria-labelledby="desktopCartOffcanvasLabel">
+    <x-front.side-cart />
  </div>
  
  <!-- Offcanvas for Mobile Cart -->
  <div class="offcanvas offcanvas-start px-1" data-bs-scroll="true" tabindex="-1" id="mobileCartOffcanvas"
     aria-labelledby="mobileCartOffcanvasLabel">
+    <x-front.side-cart />
  </div>

@@ -47,7 +47,7 @@
     <script src="{{admin_asset('libs/toastr/toastr.min.js')}}"></script>
 
     
-    <script src="{{ front_asset('js/cart.min.js') }}"></script>
+    <script src="{{ front_asset('js/cart.js') }}"></script>
 
     {{-- <script>
         $(document).ready(function () {
