@@ -12,7 +12,7 @@ class CartController extends Controller
 
     public function __construct()
     {
-        $this->seo()->setTitle("শপিং কার্ট");
+        $this->seo()->setTitle("Shopping Cart");
         $this->seo()->setDescription(setting('site.description'));
         SEOMeta::addKeyword([setting('site.keywords')]);
         $this->seo()->opengraph()->addImage(image_url(setting('site.logo'), front_asset('images/logo.png')));
@@ -28,55 +28,75 @@ class CartController extends Controller
         return view('pages.front.cart');
     }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function addToCart($id)
+    public function cartItemCount()
     {
-        $product = Product::findOrFail($id);
-
-        if(!$product->stock_status) {
-            return redirect()->back()->with('error', 'দুঃখিত, এই প্রোডাক্টটি বর্তমানে আমাদের স্টকে নেই।');
-        }
-
+        // Get the shopping cart from the session
         $cart = session()->get('shopping_cart', []);
 
-        if(isset($cart[$id])) {
-            $cart[$id]['quantity']++;
-        } else {
-            $cart[$id] = [
-                "product_id" => $product->id,
-                "name" => $product->name,
-                "quantity" => 1,
-                "price" => $product->unit_price,
-                "image" => image_url($product->thumbnail, admin_asset('images/no-image/800x800.png')),
-            ];
+        // Initialize count variable
+        $count = 0;
+
+        // Loop through the cart and calculate total quantity
+        foreach ($cart as $item) {
+            // Check if 'quantity' exists and is numeric before using it
+            if (isset($item['quantity']) && is_numeric($item['quantity'])) {
+                $count += (int) $item['quantity'];
+            }
         }
 
-        session()->put('shopping_cart', $cart);
-
-        return redirect()->back()->with('success', 'প্রোডাক্টটি আপনার শাপিং কার্টে যোগ করা হয়েছে');
+        // Return the cart count as a JSON response
+        return response()->json(['count' => $count]);
     }
+
 
     /**
      * Write code on Method
      *
      * @return response()
      */
-    public function update(Request $request)
+    public function addToCart(Request $request, $id)
     {
-        $cart = session()->get('shopping_cart');
-        foreach ($request->product_id as $key => $value) {
-            if(isset($cart[$value]) && $request['product_quantity'][$key] > 0) {
-                $cart[$value]["quantity"] = $request['product_quantity'][$key];
+        try {
+            $product = Product::findOrFail($id);
+
+            // Validate product availability, size, color, and quantity
+            $request->validate([
+                'quantity' => 'required|integer|min:1',
+                'color' => 'nullable|integer|exists:colors,id', // assuming you have a Color model
+                'size' => 'nullable|integer|exists:attributes_values,id',  // assuming you have a Size model
+            ]);
+
+            $cart = session()->get('shopping_cart', []);
+
+            // Check if the product already exists in the cart with the same size and color
+            $key = $id . '-' . $request->color . '-' . $request->size;  // unique key for the product based on size and color
+
+            if (isset($cart[$key])) {
+                $cart[$key]['quantity'] += $request->quantity;  // Update quantity if product with the same size/color already exists
+            } else {
+                // Add new product with size and color to the cart
+                $cart[$key] = [
+                    "product_id" => $product->id,
+                    "name" => $product->name,
+                    "quantity" => $request->quantity,
+                    "price" => $product->unit_price,
+                    "image" => $product->image_url,
+                    "color" => $request->color,
+                    "size" => $request->size,
+                ];
             }
+
             session()->put('shopping_cart', $cart);
+
+            // Return the updated cart and success message
+            return response()->json(['success' => 'Product added to cart successfully!', 'cart' => $cart]);
+        } catch (\Throwable $th) {
+            // Return error message if product is not found
+            return response()->json(['error' => $th->getMessage()]);
         }
 
-        return response()->json(['status' => true]);
     }
+
 
     /**
      * Write code on Method

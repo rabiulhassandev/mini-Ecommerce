@@ -19,44 +19,45 @@
                 </p>
 
                 @if ($product->colors)
-                <div class="select-color d-flex align-items-center">
-                    <h6>Select Color</h6>
-                    <div class="btn-group" role="group">
-                        @foreach ($product->colors as $key => $color)
-                            <div class="form-check" title="{{ $color->name }}">
-                                <input class="form-check-input d-none" type="radio" name="color" id="color{{ $key }}" value="{{ $color->id }}">
-                                <label for="color{{ $key }}" class="color-radio" style="background-color: {{ $color->color_code }};"></label>
-                            </div>
-                        @endforeach
+                    <div class="select-color d-flex align-items-center">
+                        <h6>Select Color</h6>
+                        <div class="btn-group" role="group">
+                            @foreach ($product->colors as $key => $color)
+                                <div class="form-check" title="{{ $color->name }}">
+                                    <input class="form-check-input d-none" type="radio" name="color" id="color{{ $key }}" value="{{ $color->id }}">
+                                    <label for="color{{ $key }}" class="color-radio" style="background-color: {{ $color->color_code }};"></label>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
                 @endif
 
                 @if ($product->attr_values)
-                <div class="product-size my-3 d-flex align-items-center">
-                    <h6 class="me-4">Select Size </h6>
-                    <div class="btn-group" role="group" aria-label="Size selection">
-                        @foreach (json_decode($product->attr_values) as $key => $size) 
-                            <input type="radio" class="btn-check" name="size" value="{{ $size->id }}" id="size{{ $key }}" autocomplete="off">
-                            <label class="btn btn-outline-secondary" for="size{{ $key }}">{{ $size->value }}</label>
-                        @endforeach
+                    <div class="product-size my-3 d-flex align-items-center">
+                        <h6 class="me-4">Select Size </h6>
+                        <div class="btn-group" role="group" aria-label="Size selection">
+                            @foreach (json_decode($product->attr_values) as $key => $size)
+                                <input type="radio" class="btn-check" name="size" value="{{ $size->id }}" id="size{{ $key }}" autocomplete="off">
+                                <label class="btn btn-outline-secondary" for="size{{ $key }}">{{ $size->value }}</label>
+                            @endforeach
+                        </div>
                     </div>
-                </div>
                 @endif
-                <!-- product quantity -->
+
+                <!-- Quantity Selection -->
                 <div class="d-flex align-items-center py-2 mb-2">
                     <h6 class="me-4">Quantity </h6>
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button type="button" class="border border-black px-3 py-2 rounded-start" id="decrement">-</button>
-                        <button type="button" class="border border-black border-end-0 px-3 py-2 border-start-0"
-                            id="quantity"></button>
+                        <button type="button" class="border border-black border-end-0 px-3 py-2 border-start-0" id="quantity">1</button>
                         <button type="button" class="border border-black px-3 py-2 rounded-end" id="increment">+</button>
                     </div>
                 </div>
-                <!-- buy or add to cart btn -->
+
+                <!-- Add to Cart and Buy Now Buttons -->
                 <div>
                     <button class="btn btn-outline-primary rounded-0 px-4">Buy Now</button>
-                    <button id="addToCartMain" class="btn bg-warning rounded-0 px-4">Add to Cart</button>
+                    <button id="addToCartMain" class="btn bg-warning rounded-0 px-4" data-url="{{ route('cart.add-to-cart', $product->id) }}">Add to Cart</button>
                 </div>
                 <small class="fw-light text-muted mt-2 lh-sm d-block">{{ $product->short_desc }}</small>
                 <!-- Product description and releted details -->
@@ -194,6 +195,6 @@
         <link rel="stylesheet" href="{{ front_asset('css/product.min.css') }}">
     @endpush
     @push('extra-scripts')
-        <script src="{{ front_asset('js/detailpage.min.js') }}"></script>
+        <script src="{{ front_asset('js/product-details.min.js') }}"></script>
     @endpush
 </x-front-layout>

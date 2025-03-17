@@ -30,25 +30,25 @@
           <div class="offcanvas-body">
              <ul class="navbar-nav ms-auto">
                 <li class="nav-item mx-4 h6">
-                    <a href="{{ route('home.index') }}" 
+                    <a href="{{ route('home.index') }}"
                        class="nav-link px-2 {{ request()->routeIs('home.index') ? 'active' : '' }}">
                        Services
                     </a>
                 </li>
-                
+
                 <li class="nav-item mx-4 h6">
-                    <a href="{{ route('home.products') }}" 
+                    <a href="{{ route('home.products') }}"
                        class="nav-link px-2 {{ request()->routeIs('home.products') ? 'active' : '' }}">
                        Products
                     </a>
                 </li>
-                
+
                 <li class="nav-item mx-4 h6">
-                    <a href="{{ route('home.contact-us') }}" 
+                    <a href="{{ route('home.contact-us') }}"
                        class="nav-link px-2 {{ request()->routeIs('home.contact-us') ? 'active' : '' }}">
                        Contact
                     </a>
-                </li>                
+                </li>
                 <li class="nav-item mx-4 h6">
                     @auth
                         <a href="{{ route('admin.dashboard') }}" class="nav-link px-2">Dashboard</a>
@@ -58,15 +58,12 @@
                 </li>
                 <li class="nav-item mx-4">
                    <!-- cart for large device atart-->
-                   <button data-bs-toggle="offcanvas" data-bs-target="#desktopCartOffcanvas"
-                      aria-controls="desktopCartOffcanvas"
-                      class="btn d-none d-md-block position-relative border-0 rounded-1 px-2 py-0"
-                      id="desktopCartButton">
-                      <i class="fa-solid fa-cart-shopping text-warning"></i>
-                      <span class="position-absolute top-0 start-100 translate-middle px-2 py-0 rounded-circle">
-                         <span class="count-item text-warning text-sm p-0 m-0">0</span>
-                      </span>
-                   </button>
+                   <a href="#" class="btn d-none d-md-block position-relative border-0 rounded-1 px-2 py-0" id="desktopCartButton" data-url="{{ route('cart.cart-item-count') }}">
+                        <i class="fa-solid fa-cart-shopping text-warning"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle px-2 py-0 rounded-circle">
+                            <span class="count-item text-warning text-sm p-0 m-0" id="cartIconBox">0</span>
+                        </span>
+                    </a>
                    <!-- cart for large device end-->
                 </li>
              </ul>
@@ -74,15 +71,3 @@
        </div>
     </div>
  </nav>
- 
- <!-- Offcanvas for Desktop Cart -->
- <div class="offcanvas offcanvas-end px-1" data-bs-scroll="true" tabindex="-1" id="desktopCartOffcanvas"
-    aria-labelledby="desktopCartOffcanvasLabel">
-    <x-front.side-cart />
- </div>
- 
- <!-- Offcanvas for Mobile Cart -->
- <div class="offcanvas offcanvas-start px-1" data-bs-scroll="true" tabindex="-1" id="mobileCartOffcanvas"
-    aria-labelledby="mobileCartOffcanvasLabel">
-    <x-front.side-cart />
- </div>

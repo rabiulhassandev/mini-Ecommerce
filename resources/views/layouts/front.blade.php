@@ -7,6 +7,8 @@
    {{-- favicon --}}
    <x-favicon />
 
+   <meta name="csrf-token" content="{{ csrf_token() }}">
+
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
@@ -17,7 +19,7 @@
     <link rel="stylesheet" href="{{ admin_asset('libs/sweet-alert2/sweetalert2.min.css') }}">
     <!-- toastr Css -->
     <link rel="stylesheet" href="{{ admin_asset('libs/toastr/toastr.min.css') }}">
-    
+
     {{-- Style CSS --}}
     <link rel="stylesheet" href="{{ front_asset('css/style.min.css') }}">
 
@@ -42,29 +44,14 @@
     {{-- Footer --}}
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="{{ front_asset('js/bootstrap.js') }}"></script>
+    <script src="{{ front_asset('js/bootstrap.min.js') }}"></script>
 
     <script src="{{admin_asset('libs/sweet-alert2/sweetalert2.min.js')}}"></script>
     <script src="{{admin_asset('libs/toastr/toastr.min.js')}}"></script>
+    <script src="{{ front_asset('js/script.min.js') }}"></script>
 
-    {{-- <script>
-        $(document).ready(function () {
-            if ($("#session_success").val()) {
-                alert($("#session_success").val());
-            }
-            if ($("#session_error").val()) {
-                alert($("#session_error").val());
-            }
-            if ($("#session_warning").val()) {
-                alert($("#session_warning").val());
-            }
-            if ($("#session_info").val()) {
-                alert($("#session_info").val());
-            }
-        });
-    </script> --}}
-    
 
     @stack('extra-scripts')
 </body>

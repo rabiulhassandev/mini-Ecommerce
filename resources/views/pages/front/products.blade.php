@@ -1,10 +1,10 @@
-<x-front-layout>    
+<x-front-layout>
     <section id="productPage">
         <div class="container">
 
             <div class="py-2 pb-3">
                 <a href="{{ route('home.products') }}" class="btn btn-primary category-btn {{ request('cat') ? '' : 'active' }}">All</a>
-                @foreach ($categories as $category)                
+                @foreach ($categories as $category)
                     <a href="{{ route('home.products', ['cat' => $category->slug]) }}" class="btn btn-primary category-btn {{ request('cat') == $category->slug ? 'active' : '' }}">{{ $category->name }}</a>
                 @endforeach
             </div>
@@ -23,8 +23,10 @@
                             </div>
                         </a>
                         <div class="pb-2 px-2 btn-group border-0 d-flex justify-content-center text-muted">
-                            <button role="button" class="AddToCart text-nowrap overflow-hidden btn border rounded-1">
-                            <i class="fa-solid fa-cart-plus"></i> Add to Cart
+                            <button role="button" class="AddToCart  text-nowrap overflow-hidden btn border rounded-1"
+                                    data-url="{{ route('cart.add-to-cart', $product->id) }}"
+                                    onclick="AddToCart(this)">
+                                <i class="fa-solid fa-cart-plus"></i> Add to Cart
                             </button>
                         </div>
                     </div>
@@ -32,7 +34,7 @@
                 @empty
                     <h3 class="text-danger text-center py-5">No Product Found!</h3>
                 @endforelse
-                
+
 
                 <div class="mt-2 mb-4 text-end pagination_box">
                     {{ $products->links() }}
