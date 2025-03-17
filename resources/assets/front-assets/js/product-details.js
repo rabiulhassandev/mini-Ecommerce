@@ -40,8 +40,9 @@ $(document).ready(function () {
         // Call AddToCart function with selected values
         AddToCart(this, quantity, color, size); // Pass `this` to get the button's data-url
 
-        // reset the quantity to 1
-        $('#quantity').text(1);
+        // reset the quantity to 1, reset count val
+        count = 1;
+        $('#quantity').text(count);
 
         // reset the selected size and color
         $('input[name="size"]').prop('checked', false);
