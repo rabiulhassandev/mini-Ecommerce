@@ -83,6 +83,26 @@ class SettingSeeder extends Seeder
                 'order'        => 1,
                 'group'        => 'Site',
             ],
+            [
+                'display_name' => 'Inside Jeddha',
+                'key'        => 'site.inside_area',
+                'value'        => '80',
+                'details'      => '[]',
+                'note'      => "",
+                'type'         => 'text',
+                'order'        => 1,
+                'group'        => 'Site',
+            ],
+            [
+                'display_name' => 'Outside Jeddha',
+                'key'        => 'site.outside_area',
+                'value'        => '100',
+                'details'      => '[]',
+                'note'      => "",
+                'type'         => 'text',
+                'order'        => 1,
+                'group'        => 'Site',
+            ]
 
 
 

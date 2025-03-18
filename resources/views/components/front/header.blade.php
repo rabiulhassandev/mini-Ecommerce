@@ -58,7 +58,7 @@
                 </li>
                 <li class="nav-item mx-4">
                    <!-- cart for large device atart-->
-                   <a href="#" class="btn d-none d-md-block position-relative border-0 rounded-1 px-2 py-0" id="desktopCartButton" data-url="{{ route('cart.cart-item-count') }}">
+                   <a href="{{ route('cart.checkout') }}" class="btn d-none d-md-block position-relative border-0 rounded-1 px-2 py-0" id="desktopCartButton" data-url="{{ route('cart.cart-item-count') }}">
                         <i class="fa-solid fa-cart-shopping text-warning"></i>
                         <span class="position-absolute top-0 start-100 translate-middle px-2 py-0 rounded-circle">
                             <span class="count-item text-warning text-sm p-0 m-0" id="cartIconBox">0</span>

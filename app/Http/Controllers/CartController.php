@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\AttributesValue;
+use App\Models\Admin\Color;
 use App\Models\Admin\Product;
 use Illuminate\Http\Request;
 use Artesaos\SEOTools\Facades\SEOMeta;
@@ -23,10 +25,41 @@ class CartController extends Controller
      *
      * @return response()
      */
-    public function index()
-    {
-        return view('pages.front.cart');
-    }
+
+     public function checkout()
+     {
+        // dd(session()->get('shopping_cart', []));
+        $cart = collect(session()->get('shopping_cart', []))
+            ->map(function ($item) {
+                // Handle null values for color and size
+                $color = $item['color'] !== null ? (string) $item['color'] : '';
+                $size = $item['size'] !== null ? (string) $item['size'] : '';
+
+                // Generate the same cart key format as addToCart() and remove()
+                $cartKey = "{$item['product_id']}-{$color}-{$size}";
+
+                // Map each item to an object with the correct values
+                return (object) [
+                    'cart_key'  => $cartKey, // Add the formatted cart key
+                    'product_id' => $item['product_id'],
+                    'name'       => $item['name'],
+                    'quantity'   => $item['quantity'],
+                    'price'      => $item['price'] * $item['quantity'], // Calculate total price
+                    'image'      => $item['image'],
+                    'color'      => Color::find($item['color'])->color_code ?? null,
+                    'size'       => AttributesValue::find($item['size'])->value ?? null
+                ];
+            })
+            ->values(); // Re-index the collection
+        // dd($cart);
+
+        // forget session
+        // session()->forget('shopping_cart');
+
+        return view('pages.front.checkout', compact('cart'));
+     }
+
+
 
     public function cartItemCount()
     {
@@ -62,40 +95,47 @@ class CartController extends Controller
             // Validate product availability, size, color, and quantity
             $request->validate([
                 'quantity' => 'required|integer|min:1',
-                'color' => 'nullable|integer|exists:colors,id', // assuming you have a Color model
-                'size' => 'nullable|integer|exists:attributes_values,id',  // assuming you have a Size model
+                'color' => 'nullable|integer|exists:colors,id',
+                'size' => 'nullable|integer|exists:attributes_values,id',
             ]);
 
             $cart = session()->get('shopping_cart', []);
 
-            // Check if the product already exists in the cart with the same size and color
-            $key = $id . '-' . $request->color . '-' . $request->size;  // unique key for the product based on size and color
+            // Generate the unique key (product_id-color-size combination)
+            $color = $request->color ?? null; // Handle null color
+            $size = $request->size ?? null;  // Handle null size
+            $cartKey = "{$id}-{$color}-{$size}"; // Create a unique key format
 
-            if (isset($cart[$key])) {
-                $cart[$key]['quantity'] += $request->quantity;  // Update quantity if product with the same size/color already exists
+            if($color != null) $color = (int) $color;
+            if($size != null) $size = (int) $size;
+
+            if (isset($cart[$cartKey])) {
+                // Update quantity if the product already exists in the cart
+                $cart[$cartKey]['quantity'] += $request->quantity;
             } else {
-                // Add new product with size and color to the cart
-                $cart[$key] = [
+                // Add new product to the cart
+                $cart[$cartKey] = [
                     "product_id" => $product->id,
                     "name" => $product->name,
-                    "quantity" => $request->quantity,
-                    "price" => $product->unit_price,
-                    "image" => $product->image_url,
+                    "quantity" => (int) $request->quantity,
+                    "price" => (int) $product->price,
+                    "image" => $product->thumbnail,
                     "color" => $request->color,
                     "size" => $request->size,
                 ];
             }
 
+            // Save the updated cart to the session
             session()->put('shopping_cart', $cart);
 
-            // Return the updated cart and success message
             return response()->json(['success' => 'Product added to cart successfully!', 'cart' => $cart]);
+
         } catch (\Throwable $th) {
-            // Return error message if product is not found
             return response()->json(['error' => $th->getMessage()]);
         }
-
     }
+
+
 
 
     /**
@@ -105,16 +145,34 @@ class CartController extends Controller
      */
     public function remove(Request $request)
     {
-        // dd($request->all());
-        if($request->cart_id) {
-            $cart = session()->get('shopping_cart');
-            if(isset($cart[$request->cart_id])) {
-                unset($cart[$request->cart_id]);
-                session()->put('shopping_cart', $cart);
-            }
+        $cart = session()->get('shopping_cart', []);
+
+        // Get the cart key
+        $cartKey = $request->input('cart_key');
+
+        // Check if item exists, then remove it
+        if (isset($cart[$cartKey])) {
+            unset($cart[$cartKey]); // Remove item from cart
+            session()->put('shopping_cart', $cart); // Update session
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Item not found in cart!',
+                'cart'    => $cart,
+            ]);
         }
-        return response()->json(['status' => true]);
+
+        return response()->json([
+            'success'    => true,
+            'message'    => 'Item removed successfully',
+            'cart'       => $cart,
+            'cart_count' => array_sum(array_column($cart, 'quantity')),
+        ]);
     }
+
+
+
+
 
     /**
      * Write code on Method

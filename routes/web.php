@@ -36,10 +36,10 @@ Route::post('/color-details', [HomeController::class, 'colorDetails'])->name('ho
 
 // add to cart routes
 Route::prefix('cart')->group(function () {
-    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
     Route::post('/cart-item-count', [CartController::class, 'cartItemCount'])->name('cart.cart-item-count');
     Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add-to-cart');
     Route::get('/clear-cart', [CartController::class, 'clearCart'])->name('cart.clear-cart');
     Route::post('/confirm-order', [CartController::class, 'confirmOrder'])->name('cart.confirm-order');
-    Route::post('/remove-cart-item', [CartController::class, 'remove'])->name('cart.remove-cart-item');
+    Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
 });
