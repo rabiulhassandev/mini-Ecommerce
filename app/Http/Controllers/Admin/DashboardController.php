@@ -8,6 +8,7 @@ use App\Models\Admin\Permission;
 use App\Models\Admin\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
+use App\Models\Admin\Order;
 use App\Models\Admin\Product;
 use App\Models\Admin\Slider;
 
@@ -55,6 +56,7 @@ class DashboardController extends Controller
         if (\can('products')) $analytic['products'] = Product::select('id')->count();
         if (\can('categories')) $analytic['categories'] = Category::select('id')->count();
         if (\can('sliders')) $analytic['sliders'] = Slider::select('id')->count();
+        if (\can('orders')) $analytic['orders'] = Order::select('id')->count();
 
 
 

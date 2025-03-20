@@ -51,7 +51,7 @@
                         <div class="p-3 bg-primary text-white">
                             <h6 class="text-uppercase mb-0">Products</h6>
                             <h2>{{ $analytic['products']??0 }}</h2>
-                            <i class="bx bx-cart dashboard-card-icon"></i>
+                            <i class='bx bx-circle-three-quarter dashboard-card-icon'></i>
                         </div>
                     </a>
                 </div>
@@ -66,6 +66,20 @@
                             <h6 class="text-uppercase mb-0">Slider</h6>
                             <h2>{{ $analytic['sliders']??0 }}</h2>
                             <i class="bx bx-slideshow dashboard-card-icon"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            @endcan
+
+            @can('orders')
+            <div class="col-xl-3 col-md-6">
+                <div class="card mini-stat m-b-30">
+                    <a href="{{ route('admin.orders.index') }}">
+                        <div class="p-3 bg-primary text-white">
+                            <h6 class="text-uppercase mb-0">Order</h6>
+                            <h2>{{ $analytic['orders']??0 }}</h2>
+                            <i class="bx bx-cart dashboard-card-icon"></i>
                         </div>
                     </a>
                 </div>

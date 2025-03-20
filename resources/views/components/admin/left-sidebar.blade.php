@@ -42,7 +42,7 @@
                 </li>
                 @endif
 
-                
+
                 @if (can('colors') or can('attributes_sets') or can('attributes_values'))
                 <li class="has_sub">
                     <a href="javascript:void(0);" class="waves-effect"><i class="bx bx-menu"></i> <span> Basics </span> <span class="menu-arrow float-right"><i class="bx bx-chevron-right"></i></span></a>
@@ -83,7 +83,7 @@
                 @can('products')
                 <li>
                     <a href="{{ route('admin.products.index') }}" class="waves-effect">
-                        <i class='bx bx-cart'></i>
+                        <i class='bx bx-circle-three-quarter'></i>
                         <span> Products </span>
                     </a>
                 </li>
