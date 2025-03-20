@@ -56,10 +56,10 @@ class OrderController extends Controller
     }
 
     /**
-     * 
+     *
      * Order Details
      */
-    public function orderDetails(Order $order){
+    public function orderDetails($orderId){
         \config_set('theme.cdata', [
             'title'      => 'Order Details',
             'breadcrumb' => [
@@ -78,15 +78,17 @@ class OrderController extends Controller
             ]
         ]);
 
+        $order = Order::where('order_id', $orderId)->firstOrFail();
+
         return \view('pages.admin.orders.details', ['item' => $order]);
     }
 
-    
+
     /**
-     * 
+     *
      * Invoice
      */
-    public function invoice(Order $order){
+    public function invoice($orderId){
         \config_set('theme.cdata', [
             'title'      => 'Invoice',
             'breadcrumb' => [
@@ -105,11 +107,14 @@ class OrderController extends Controller
             ]
         ]);
 
-        return \view('pages.admin.orders.invoice', ['item' => $order]);
+        $order = Order::where('order_id', $orderId)->firstOrFail();
+
+
+        return \view('pages.admin.orders.invoice', ['data' => $order]);
     }
 
     /**
-     * 
+     *
      * Order Status
      */
     public function statusUpdate(Order $order, Request $request){
@@ -124,7 +129,7 @@ class OrderController extends Controller
     }
 
     /**
-     * 
+     *
      * Order Payment
      */
     public function paymentConfirmed(Order $order){

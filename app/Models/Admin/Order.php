@@ -44,7 +44,7 @@ class Order extends Model
     public static function generateOrderId()
     {
         do {
-            $order_id = 'ORD' . Str::upper(Str::random(8)); // Generates a 8-character unique ID
+            $order_id = 'ORD' . "-" . Str::upper(Str::random(8)); // Generates a 8-character unique ID
         } while (self::where('order_id', $order_id)->exists());
 
         return $order_id;

@@ -63,8 +63,8 @@
                                         Status: {!! $item->getStatus() !!} <br>
                                         Created At: {{ $item->created_at->format('d M Y') }} <br>
 
-                                        <a href="{{ route('admin.orders.details',$item->id) }}" class="btn btn-primary btn-sm rounded-0">Order Details</a>
-                                        <a href="{{ route('admin.orders.invoice',$item->id) }}" class="btn btn-primary btn-sm rounded-0">Invoice</a>
+                                        <a href="{{ route('admin.orders.details',$item->order_id) }}" class="btn btn-primary btn-sm rounded-0">Order Details</a>
+                                        <a href="{{ route('admin.orders.invoice',$item->order_id) }}" class="btn btn-primary btn-sm rounded-0">Invoice</a>
                                     </td>
                                 </tr>
                                 @empty

@@ -5,7 +5,7 @@
 
     <div class="left-side-logo d-block d-lg-none">
         <div class="text-center">
-            <a href="{{ route('admin.dashboard') }}" class="logo"><img src="{{ image_url(setting('site.logo_white'), front_asset('images/logo.png')) }}" height="40" alt="logo"></a>
+            <a href="{{ route('admin.dashboard') }}" class="logo"><img src="{{ image_url(setting('site.logo'), admin_asset('images/logo.png')) }}" height="40" alt="logo"></a>
         </div>
     </div>
 
