@@ -45,7 +45,7 @@
                                 </tr>
                                 <tr>
                                     <td>Address</td>
-                                    <td>{{ $item->address }}</td>
+                                    <td>{{ $item->addr }}</td>
                                 </tr>
                                 <tr>
                                     <td>City:</td>
@@ -84,7 +84,7 @@
                                 </tr>
                                 <tr>
                                     <td>Subtotal</td>
-                                    <td>{{ $item->sub_total }}{{ setting('site.currency')??null }}</td>
+                                    <td>{{ $item->subtotal }}{{ setting('site.currency')??null }}</td>
                                 </tr>
                                 <tr>
                                     <td>Shipping Fee</td>
@@ -104,42 +104,49 @@
                                 </tr>
                                 <tr>
                                     <td>Date</td>
-                                    <td>{{ $item->created_at->format('d M Y') }}</td>
+                                    <td>{{ $item->created_at->format('d M Y, H:m') }}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        @if (!$item->is_paid)
+                                            <form action="{{ route('admin.orders.payment-confirmed', $item->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <button type="submit" class="btn btn-success">
+                                                    <i class="bx bx-credit-card"></i> Confirm Payment
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        @if (!$item->is_paid == 'pending' || $item->status == 'processing')
+                                        <form action="{{ route('admin.orders.status-update', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+
+                                            <div style="max-width: 200px">
+                                                <label class="fw-semibold">Order Status:</label>
+                                                <select name="status" class="form-control form-select w-100" onchange="this.form.submit()">
+                                                    <option value="pending" {{ $item->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                                    <option value="processing" {{ $item->status == 'processing' ? 'selected' : '' }}>Processing</option>
+                                                    <option value="completed" {{ $item->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                                    <option value="cancelled" {{ $item->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-primary mt-2">
+                                                    <i class="bx bx-check-circle"></i> Update
+                                                </button>
+                                            </div>
+                                        </form>
+                                    @endif
+                                    </td>
                                 </tr>
                             </table>
                         </div>
-
-                        <div class="d-flex flex-column gap-2 pt-2">
-                            @if (!$item->is_paid)
-                                <form action="{{ route('admin.orders.payment-confirmed', $item->id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="btn btn-warning w-100">
-                                        <i class="bx bx-credit-card"></i> Confirm Payment
-                                    </button>
-                                </form>
-                            @endif
-                        
-                            @if (!$item->is_paid == 'pending' || $item->status == 'processing')
-                                <form action="{{ route('admin.orders.status-update', $item->id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH')
-                        
-                                    <div class="d-flex align-items-center gap-2">
-                                        <label class="fw-semibold">Order Status:</label>
-                                        <select name="status" class="form-select w-auto" onchange="this.form.submit()">
-                                            <option value="processing" {{ $item->status == 'processing' ? 'selected' : '' }}>Processing</option>
-                                            <option value="completed" {{ $item->status == 'completed' ? 'selected' : '' }}>Completed</option>
-                                            <option value="cancelled" {{ $item->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                        </select>
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="bx bx-check-circle"></i> Update
-                                        </button>
-                                    </div>
-                                </form>
-                            @endif
-                        </div>                        
-
                     </div>
                 </div>
             </div>

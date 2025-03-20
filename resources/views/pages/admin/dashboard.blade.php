@@ -81,6 +81,10 @@
                             <h2>{{ $analytic['orders']??0 }}</h2>
                             <i class="bx bx-cart dashboard-card-icon"></i>
                         </div>
+                        <div class="d-flex bg-secondary px-1 py-1 text-white justify-content-between">
+                            <small>Pending({{ $analytic['orders_pending'] ?? 0 }})</small>
+                            <small>Completed({{ $analytic['orders_completed'] ?? 0 }})</small>
+                        </div>
                     </a>
                 </div>
             </div>

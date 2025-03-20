@@ -261,7 +261,7 @@ class CartController extends Controller
                         'addr' => $data['address'],
                         'phone' => $data['phone'],
                         'is_inside_area' => $is_inside_area,
-                        'subtotal' => $cartAmount['subtotal'],
+                        'sub_total' => $cartAmount['subtotal'],
                         'shipping_fee' => $cartAmount['shipping_fee'],
                         'total' => $cartAmount['total'],
                         'order_id' => Order::generateOrderId(),

@@ -56,7 +56,11 @@ class DashboardController extends Controller
         if (\can('products')) $analytic['products'] = Product::select('id')->count();
         if (\can('categories')) $analytic['categories'] = Category::select('id')->count();
         if (\can('sliders')) $analytic['sliders'] = Slider::select('id')->count();
-        if (\can('orders')) $analytic['orders'] = Order::select('id')->count();
+        if (\can('orders')){
+            $analytic['orders'] = Order::select('id')->count();
+            $analytic['orders_pending'] = Order::where('status', 'pending')->select('id')->count();
+            $analytic['orders_completed'] = Order::where('status', 'completed')->select('id')->count();
+        }
 
 
 

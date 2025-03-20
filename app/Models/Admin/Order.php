@@ -51,12 +51,10 @@ class Order extends Model
     }
 
     // Get Order Status
-    public static function getStatus()
+    public function getStatus()
     {
-        $status = '$this->status';
+        $status = Str::lower($this->status); // Correctly reference the instance's status
 
-
-        $status = Str::lower($status);
         $badge = 'bg-warning text-white';
         $text = 'Pending';
 
@@ -74,16 +72,14 @@ class Order extends Model
         return "<span class='badge {$badge}'>{$text}</span>";
     }
 
+
     // Get Payment Status
-    public static function getPaymentStatus()
+    public function getPaymentStatus()
     {
-        $is_paid = '$this->is_paid';
-
-
         $badge = 'bg-warning text-white';
         $text = 'Unpaid';
 
-        if ($is_paid) {
+        if ($this->is_paid) {
             $badge = 'bg-success text-white';
             $text = 'Paid';
         }
