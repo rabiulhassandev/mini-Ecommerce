@@ -127,7 +127,7 @@ class SettingSeeder extends Seeder
             [
                 'display_name' => 'WhatsApp Number',
                 'key'        => 'contact.whatsapp',
-                'value'        => "01601308010",
+                'value'        => "01601310101",
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text',
@@ -147,7 +147,7 @@ class SettingSeeder extends Seeder
             [
                 'display_name' => 'Address',
                 'key'        => 'contact.address',
-                'value'        => "New York, US",
+                'value'        => "Chattogram, Bangladesh",
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text',
