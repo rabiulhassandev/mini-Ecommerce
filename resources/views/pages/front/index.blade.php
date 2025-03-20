@@ -39,7 +39,7 @@
                     src="https://img.freepik.com/premium-vector/hand-drawn-call-center-characters-with-smartphones-concept-online-support-flat-style-isolated-background_1375-28728.jpg?semt=ais_hybrid"
                     class=" rounded-top-3 object-fit-cover mx-auto opacity-75" style="height: 10rem; width: 100%;">
                     <p class="text-center m-0 bg-danger-subtle py-3 rounded-bottom-3">
-                    <a href="#" class="product-card-link text-decoration-none text-dark text-md w-100%">Contact Us</a>
+                    <a href="{{ route('home.contact-us') }}" class="product-card-link text-decoration-none text-dark text-md w-100%">Contact Us</a>
                     </p>
                 </div>
             </div>
@@ -56,7 +56,7 @@
             </div>
         </div>
         </div>
-        <h4 class="text-center mt-5">Featured Products</h4>
+        {{-- <h4 class="text-center mt-5">Featured Products</h4>
         <div class=" container mt-3">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
@@ -81,7 +81,7 @@
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-pagination"></div>
             </div>
-        </div>
+        </div> --}}
     </section>
     <!-- services end -->
 
