@@ -2,6 +2,7 @@
 // Function to update the cart item count
 function CartItemCount() {
     let url = $('#desktopCartButton').data('url');  // Get URL from the anchor tag
+    var count = 0;
 
     $.ajax({
         url: url,
@@ -10,12 +11,15 @@ function CartItemCount() {
             _token: $('meta[name="csrf-token"]').attr('content') // CSRF token
         },
         success: function (response) {
-            $("#cartIconBox").text(response.count); // Update the cart icon count
+            count = response.count; // Get the cart count from the response
+            $("#cartIconBox").text(count); // Update the cart icon count
         },
         error: function(xhr) {
             toastr.error("Error loading cart count.");
         }
     });
+
+    return count;
 }
 
 

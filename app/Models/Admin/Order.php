@@ -27,7 +27,7 @@ class Order extends Model
         'status',
         'user_id'
     ];
-    
+
     // User
     public function user()
     {
@@ -46,13 +46,16 @@ class Order extends Model
         do {
             $order_id = 'ORD' . Str::upper(Str::random(8)); // Generates a 8-character unique ID
         } while (self::where('order_id', $order_id)->exists());
-    
+
         return $order_id;
     }
 
     // Get Order Status
-    public static function getStatus($status)
+    public static function getStatus()
     {
+        $status = '$this->status';
+
+
         $status = Str::lower($status);
         $badge = 'bg-warning text-white';
         $text = 'Pending';
@@ -72,8 +75,11 @@ class Order extends Model
     }
 
     // Get Payment Status
-    public static function getPaymentStatus($is_paid)
+    public static function getPaymentStatus()
     {
+        $is_paid = '$this->is_paid';
+
+
         $badge = 'bg-warning text-white';
         $text = 'Unpaid';
 

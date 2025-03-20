@@ -49,7 +49,6 @@
                         <div class="table-responsive">
                             <x-data-table>
                                 <tr>
-                                    <th>#</th>
                                     <th>Order ID</th>
                                     <th>Details</th>
                                 </tr>
@@ -59,7 +58,6 @@
                                     <td>
                                         Name: <a href="{{ route('admin.user.show', $item->user_id) }}">{{ $item->name }}</a> <br>
                                         Phone: {{ $item->phone }} <br>
-                                        Email: {{ $item->email }} <br>
                                         Is_paid: {!! $item->getPaymentStatus() !!} <br>
                                         Total: {{ $item->total }}{{ setting('site.currency')??null }} <br>
                                         Status: {!! $item->getStatus() !!} <br>

@@ -3,7 +3,8 @@
 
     <div class="container">
         @if (count($cart) > 0)
-        <form action="#" method="post">
+        <form action="{{ route('cart.confirm-order') }}" id="cart_form" method="post">
+            @csrf
             <div class="row flex-column-reverse flex-md-row mt-3">
                 <div class="col-12 col-md-6 bg-light-subtle my-2 p-3">
                     <!-- delivary address -->
@@ -25,14 +26,14 @@
                     <div class="border p-3 mt-3">
                         <h6>Shipping method</h6>
                         <div class="custom-radio">
-                            <input type="radio" id="insideDhaka" name="shipping" class="d-none" checked>
+                            <input type="radio" id="insideDhaka" name="inside_area" class="d-none" value="inside" checked>
                             <label for="insideDhaka">
                                 <span>Inside Jeddah</span>
                                 <span class="fw-semibold">{{ setting('site.inside_area') }}{{ setting('site.currency') }}</span>
                             </label>
                         </div>
                         <div class="custom-radio mt-2">
-                            <input type="radio" id="outsideDhaka" name="shipping" class="d-none">
+                            <input type="radio" id="outsideDhaka" name="inside_area" value="outside" class="d-none">
                             <label for="outsideDhaka">
                                 <span>Outside Jeddah</span>
                                 <span class="fw-semibold">{{ setting('site.outside_area') }}{{ setting('site.currency') }}</span>
@@ -49,7 +50,7 @@
                 <div class="col-12 col-md-6 bg-light-subtle my-2  px-3 px-md-3 py-3">
                     <div class="selected-product p-3 border">
                         <div class=" mb-3 d-flex justify-content-end align-items-center">
-                            <a href="{{ route('home.products') }}" class="text-primary text-decoration-none">Add More Products</a>
+                            <a href="{{ route('cart.clear-cart') }}" class="btn btn-sm btn-outline-danger text-decoration-none"> <i class="fa fa-trash"></i> Clear Cart</a>
                         </div>
                         <div class="accordion" id="productSummary">
                             <div class="accordion-item">
@@ -98,16 +99,16 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center p-3 border mt-2">
                         <p class="fw-semibold p-0 m-0">Subtotal</p>
-                        <p class="fw-semibold p-0 m-0">000{{ setting('site.currency') }}</p>
+                        <p class="fw-semibold p-0 m-0"><span id="subtotal_amount"></span>{{ setting('site.currency') }}</p>
                     </div>
                     <div class="p-3 border mt-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <p>Shipping Charge </p>
-                            <p>000{{ setting('site.currency') }}</p>
+                            <p><span id="shipping_fee"></span>{{ setting('site.currency') }}</p>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <p class="fw-semibold">Total</p>
-                            <p class="fw-semibold">000{{ setting('site.currency') }}</p>
+                            <p class="fw-semibold"><span id="total_amount"></span>{{ setting('site.currency') }}</p>
                         </div>
                         <div>
                             <button class="d-none d-md-block btn btn-secondary fw-semibold w-100 my-2">Confirm Order</button>
@@ -119,8 +120,14 @@
                 <button class="btn btn-secondary fw-semibold col-12  col-md-6 my-2">Confirm Order</button>
             </div>
         </form>
+
+        <div class="py-5 mt-5 empty-cart" id="order_confirmed" style="display: none;">
+            <img src="{{ front_asset('images/order-confirm.png') }}" alt="No Items in Cart">
+            <h3 class="text-center">Order confirmed!</h3>
+            <p class="text-center">Your order has been successfully confirmed. Track your order: <a href="{{ route('admin.orders.index') }}">Click Here</a></p>
+        </div>
         @else
-        <div class="pt-5 mt-5 empty-cart">
+        <div class="py-5 mt-5 empty-cart">
             <img src="{{ front_asset('images/empty-cart.png') }}" alt="No Items in Cart">
             <h3 class="text-center">Your Cart is Empty!</h3>
             <p class="text-center">Looks like you haven't added anything yet. <a href="{{ route('home.products') }}">Browse products</a> and start shopping!</p>
@@ -134,7 +141,40 @@
     @endpush
 
     @push('extra-scripts')
+        <script src="{{ front_asset('js/checkout.min.js') }}"></script>
         <script>
+            // calculate cart amount
+            function getCartAmount(inside_area = 'inside') {
+                $.ajax({
+                    url: "{{ route('cart.calculate-cart-amount') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        inside_area: inside_area
+                    },
+                    success: function(response) {
+                        $('#subtotal_amount').text(response.subtotal); // Update Subtotal
+                        $('#shipping_fee').text(response.shipping_fee); // Update Shipping Fee
+                        $('#total_amount').text(response.total); // Update Total Amount
+                    },
+                    error: function(xhr) {
+                        console.error("Error fetching cart amount:", xhr.responseText);
+                    }
+                });
+            }
+
+            // Call function when the page loads
+            $(document).ready(function () {
+                getCartAmount(); // Default inside area
+            });
+
+            // If shipping location changes (Inside/Outside)
+            $('input[name="inside_area"]').on('change', function () {
+                let area = $(this).val();
+                getCartAmount(area);
+            });
+
+            // remove cart item
             $(document).ready(function () {
                 $(".remove-cart-item").click(function () {
                     let cartKey = $(this).data("cart-key");
@@ -152,8 +192,14 @@
                                 itemElement.remove();
                                 toastr.success(response.message);
 
-                                // cart count update
-                                CartItemCount();
+                                // update cart item count
+                                if(CartItemCount() == 0){
+                                    // reload page
+                                    location.reload();
+                                }
+
+                                // Update cart amount
+                                getCartAmount();
                             } else {
                                 toastr.error(response.message);
                             }
@@ -164,6 +210,9 @@
                     });
                 });
             });
+
+
+
         </script>
     @endpush
 </x-front-layout>

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin\AttributesValue;
 use App\Models\Admin\Color;
-use App\Models\Admin\Product;
+use App\Models\Admin\Order;
 use Illuminate\Http\Request;
+use App\Models\Admin\Product;
+use App\Models\Admin\OrderItem;
+use Illuminate\Support\Facades\DB;
+use App\Models\Admin\AttributesValue;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Session;
 
@@ -21,7 +24,7 @@ class CartController extends Controller
     }
 
     /**
-     * Write code on Method
+     * Execute the code
      *
      * @return response()
      */
@@ -60,7 +63,7 @@ class CartController extends Controller
      }
 
 
-
+     // count cart items
     public function cartItemCount()
     {
         // Get the shopping cart from the session
@@ -79,6 +82,44 @@ class CartController extends Controller
 
         // Return the cart count as a JSON response
         return response()->json(['count' => $count]);
+    }
+
+    // calculate cart amount
+    public function calculateCartAmount(Request $request)
+    {
+        $inside_area = $request->inside_area ?? 'inside';
+
+        // Get the shopping cart from the session
+        $cart = session()->get('shopping_cart', []);
+
+        // Initialize the total amount variables
+        $subtotal = 0;
+        $shipping_fee = (int) (setting('site.inside_area') ?? 0);
+
+        // Loop through the cart and calculate total amount
+        foreach ($cart as $item) {
+            // find the product by product_id
+            $product = Product::find($item['product_id'] ?? null);
+            if($product){
+                // Check if 'quantity' exists and is numeric before using it
+                if (isset($item['quantity']) && is_numeric($item['quantity'])) {
+                    $subtotal += (int) $item['quantity'] * $product->price;
+                }
+            }
+        }
+
+        // shipping fee
+        if($inside_area == 'outside') $shipping_fee = (int) (setting('site.outside_area') ?? 0);
+
+        // Calculate the total amount
+        $total = $subtotal + $shipping_fee;
+
+        // Return the cart amount as a JSON response
+        return response()->json([
+            'subtotal' => $subtotal,
+            'shipping_fee' => $shipping_fee,
+            'total' => $total,
+        ]);
     }
 
 
@@ -183,42 +224,80 @@ class CartController extends Controller
     {
         session()->forget('shopping_cart');
 
-        return redirect()->back()->with('success', 'আপনার শাপিং কার্ট খালি করা হয়েছে');
+        return redirect()->back()->with('success', 'Cart cleared successfully!');
     }
 
-    // link Generate
+    // confirm order
     public function confirmOrder(Request $request)
     {
-        $text = '';
-        $total = 0;
-        $cart = session()->get('shopping_cart');
+        try {
+            $data = $request->validate([
+                'name' => 'required|string',
+                'phone' => 'required|string',
+                'address' => 'required|string',
+                'inside_area' => 'required|string|in:inside,outside'
+            ]);
 
-        if($cart == null){
-            Session::flash('success', 'Your Cart Is Empty!');
-            return response()->json(['status' => false, 'msg' => "Cart Is Empty!"]);
-        }
+            // Determine if the order is inside or outside the area
+            $is_inside_area = ($data['inside_area'] === 'inside');
 
-        foreach ($request->product_id as $key => $value) {
-            // find product by id
-            $product = Product::find($request['product_id'][$key]);
+            // Get cart amount using calculateCartAmount() method
+            $cartAmount = $this->calculateCartAmount($request)->original;
 
-            if($product){
-                $cart[$value] = [
-                    "product_id" => $product->id,
-                    "name" => $product->name,
-                    "quantity" => $request['product_quantity'][$key],
-                    "price" => $product->unit_price,
-                    "image" => image_url($product->thumbnail, admin_asset('images/no-image/800x800.png')),
-                ];
-                $text .= " ==>Name: " . $cart[$value]['name'] . ", Quantity: " . $cart[$value]['quantity'] . ", Price: " . $cart[$value]['price'] . "TK" . "\n";
-                $total += $cart[$value]['price'] * $cart[$value]['quantity'];
+            // Retrieve cart from session
+            $cart = session('shopping_cart', []);
+
+            // If cart is empty, prevent order placement
+            if (empty($cart)) {
+                return response()->json(['error' => 'Your cart is empty. Please add items before placing an order.'], 400);
             }
-            session()->put('shopping_cart', $cart);
-        }
-        $text .= "\n ==>Total: " . $total . "TK";
-        session()->forget('shopping_cart');
 
-        return response()->json(['status' => true, 'msg' => "Your order has been created!", 'url' => "https://wa.me/".(setting('contact.whatsapp')??null)."?text=" . $text]);
+            // Save order and order items inside a transaction
+            try {
+                $order = DB::transaction(function () use ($data, $cartAmount, $cart, $is_inside_area) {
+                    // Create Order
+                    $order = Order::create([
+                        'name' => $data['name'],
+                        'addr' => $data['address'],
+                        'phone' => $data['phone'],
+                        'is_inside_area' => $is_inside_area,
+                        'subtotal' => $cartAmount['subtotal'],
+                        'shipping_fee' => $cartAmount['shipping_fee'],
+                        'total' => $cartAmount['total'],
+                        'order_id' => Order::generateOrderId(),
+                        'user_id' => auth()->id(),
+                    ]);
+
+                    // Add items to order
+                    $orderItems = [];
+                    foreach ($cart as $item) {
+                        $orderItems[] = [
+                            'order_id' => $order->id,
+                            'product_id' => $item['product_id'],
+                            'quantity' => $item['quantity'],
+                            'rate' => $item['price'],
+                            'total' => $item['quantity'] * $item['price'], // Corrected: using item's quantity
+                            'color_id' => $item['color'] ?? null, // Handle null values safely
+                            'size_id' => $item['size'] ?? null
+                        ];
+                    }
+
+                    // Bulk insert order items for better performance
+                    OrderItem::insert($orderItems);
+
+                    return $order;
+                });
+            } catch (\Throwable $th) {
+                return response()->json(['error' => 'Data Storing Issue!'], 500);
+            }
+
+            // Clear the shopping cart session
+            session()->forget('shopping_cart');
+
+            return response()->json(['success' => 'Order confirmed successfully!', 'link' => route('admin.orders.details', $order->id)]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Something went wrong: ' . $th->getMessage()], 500);
+        }
     }
 
 }

@@ -38,8 +38,9 @@ Route::post('/color-details', [HomeController::class, 'colorDetails'])->name('ho
 Route::prefix('cart')->group(function () {
     Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout')->middleware('auth');
     Route::post('/cart-item-count', [CartController::class, 'cartItemCount'])->name('cart.cart-item-count');
+    Route::post('/calculate-cart-amount', [CartController::class, 'calculateCartAmount'])->name('cart.calculate-cart-amount');
     Route::post('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add-to-cart');
     Route::get('/clear-cart', [CartController::class, 'clearCart'])->name('cart.clear-cart');
-    Route::post('/confirm-order', [CartController::class, 'confirmOrder'])->name('cart.confirm-order');
     Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/confirm-order', [CartController::class, 'confirmOrder'])->name('cart.confirm-order')->middleware('auth');
 });

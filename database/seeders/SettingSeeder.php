@@ -30,7 +30,7 @@ class SettingSeeder extends Seeder
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text',
-                'order'        => 7,
+                'order'        => 8,
                 'group'        => 'Site',
             ],
             [
@@ -40,7 +40,7 @@ class SettingSeeder extends Seeder
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text_area',
-                'order'        => 6,
+                'order'        => 7,
                 'group'        => 'Site',
             ],
             [
@@ -50,7 +50,7 @@ class SettingSeeder extends Seeder
                 'details'      => '[]',
                 'note'      => \null,
                 'type'         => 'text_area',
-                'order'        => 5,
+                'order'        => 6,
                 'group'        => 'Site',
             ],
             [
@@ -60,7 +60,7 @@ class SettingSeeder extends Seeder
                 'details'      => '[]',
                 'note'      => "",
                 'type'         => 'image',
-                'order'        => 4,
+                'order'        => 5,
                 'group'        => 'Site',
             ],
             [
@@ -70,7 +70,7 @@ class SettingSeeder extends Seeder
                 'details'      => '[]',
                 'note'      => "",
                 'type'         => 'image',
-                'order'        => 2,
+                'order'        => 4,
                 'group'        => 'Site',
             ],
             [
@@ -80,7 +80,7 @@ class SettingSeeder extends Seeder
                 'details'      => '[]',
                 'note'      => "",
                 'type'         => 'text',
-                'order'        => 1,
+                'order'        => 3,
                 'group'        => 'Site',
             ],
             [
@@ -90,7 +90,7 @@ class SettingSeeder extends Seeder
                 'details'      => '[]',
                 'note'      => "",
                 'type'         => 'text',
-                'order'        => 1,
+                'order'        => 2,
                 'group'        => 'Site',
             ],
             [
@@ -102,7 +102,7 @@ class SettingSeeder extends Seeder
                 'type'         => 'text',
                 'order'        => 1,
                 'group'        => 'Site',
-            ]
+            ],
 
 
 
