@@ -59,17 +59,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        \config_set('theme.cdata', [
-            'description' => 'Displaying all Users.',
+        $users = new User();
 
-        ]);
-        // seo
-        $this->seo()->setTitle(config('theme.cdata.title'));
-        $this->seo()->setDescription(\config('theme.cdata.description'));
+        $users = $users->where(function ($users) use ($request)
+        {
+            $users->where('name', 'LIKE', "%{$request->search}%");
+            $users->orWhere('email', 'LIKE', "%{$request->search}%");
+            $users->orWhere('phone', 'LIKE', "%{$request->search}%");
+        });
+        $users = $users->orderByDesc('id')->paginate(20)->withQueryString();
 
-        $users = User::cacheData();
         return \view('pages.admin.user.index', \compact('users'));
     }
 

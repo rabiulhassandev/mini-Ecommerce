@@ -17,6 +17,7 @@ class OrderController extends Controller
     {
         $this->middleware('auth');
         $this->middleware(['permission:orders']);
+        $this->middleware(['permission:orders_all'])->only(['statusUpdate', 'paymentConfirmed']);
         \config_set('theme.cdata', [
             'title'      => 'All Orders',
             'model'      => 'Order',
@@ -50,6 +51,7 @@ class OrderController extends Controller
             $collection->orWhere('name', 'LIKE', "%{$request->search}%");
             $collection->orWhere('addr', 'LIKE', "%{$request->search}%");
         });
+        if(!can('orders_all')) $collection = $collection->where('user_id', auth()->id());
         $collection = $collection->orderByDesc('id')->paginate(20)->withQueryString();
 
         return \view('pages.admin.orders.index', \compact('collection'));
@@ -59,7 +61,12 @@ class OrderController extends Controller
      *
      * Order Details
      */
-    public function orderDetails($orderId){
+    public function orderDetails($orderId)
+    {
+        $order = Order::where('order_id', $orderId)->firstOrFail();
+
+        if(!can('orders_all') && $order->user_id != auth()->id()) abort(403);
+
         \config_set('theme.cdata', [
             'title'      => 'Order Details',
             'breadcrumb' => [
@@ -78,8 +85,6 @@ class OrderController extends Controller
             ]
         ]);
 
-        $order = Order::where('order_id', $orderId)->firstOrFail();
-
         return \view('pages.admin.orders.details', ['item' => $order]);
     }
 
@@ -88,7 +93,12 @@ class OrderController extends Controller
      *
      * Invoice
      */
-    public function invoice($orderId){
+    public function invoice($orderId)
+    {
+        $order = Order::where('order_id', $orderId)->firstOrFail();
+        if(!can('orders_all') && $order->user_id != auth()->id()) abort(403);
+
+
         \config_set('theme.cdata', [
             'title'      => 'Invoice',
             'breadcrumb' => [
@@ -106,9 +116,6 @@ class OrderController extends Controller
                 ],
             ]
         ]);
-
-        $order = Order::where('order_id', $orderId)->firstOrFail();
-
 
         return \view('pages.admin.orders.invoice', ['data' => $order]);
     }

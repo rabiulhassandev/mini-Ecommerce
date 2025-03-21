@@ -74,10 +74,12 @@
                                     <td>OrderID</td>
                                     <td>#{{ $item->order_id }}</td>
                                 </tr>
+                                @can('orders_all')
                                 <tr>
                                     <td>User</td>
                                     <td><a href="{{ route('admin.user.show', $item->user_id) }}">{{ $item->user->name ?? $item->name }}</a></td>
                                 </tr>
+                                @endcan
                                 <tr>
                                     <td>Payment Method</td>
                                     <td>{{ $item->payment_method }}</td>
@@ -106,6 +108,7 @@
                                     <td>Date</td>
                                     <td>{{ $item->created_at->format('d M Y, H:m') }}</td>
                                 </tr>
+                                @can('orders_all')
                                 <tr>
                                     <td></td>
                                     <td>
@@ -145,6 +148,7 @@
                                     @endif
                                     </td>
                                 </tr>
+                                @endcan
                             </table>
                         </div>
                     </div>

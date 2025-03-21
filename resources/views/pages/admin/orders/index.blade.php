@@ -56,7 +56,13 @@
                                 <tr>
                                     <td> #{{ $item->order_id }}</td>
                                     <td>
-                                        Name: <a href="{{ route('admin.user.show', $item->user_id) }}">{{ $item->name }}</a> <br>
+                                        Name:
+                                        @if(can('orders_all'))
+                                            <a href="{{ route('admin.user.show', $item->user_id) }}">{{ $item->name }}</a>
+                                        @else
+                                            {{ $item->name }}
+                                        @endif
+                                        <br>
                                         Phone: {{ $item->phone }} <br>
                                         Is_paid: {!! $item->getPaymentStatus() !!} <br>
                                         Total: {{ $item->total }}{{ setting('site.currency')??null }} <br>

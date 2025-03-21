@@ -31,6 +31,8 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-        ]);
+            'user_status_id' => 2,
+            'email_verified_at' => now(),
+        ])->assignRole('Public');
     }
 }

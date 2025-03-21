@@ -49,21 +49,19 @@ class RoleTableSeeder extends Seeder
             // products
             'products',
             // orders
-            'orders'
+            'orders',
+            'orders_all',
         ];
 
         $role = [
             'Developer',
             'Admin',
-            'Manager',
-            'Team Member',
-            'Contributor',
-            'Author',
+            'Public',
         ];
 
         $developer = Role::create(['name' => 'Developer']);
         $admin = Role::create(['name' => 'Admin']);
-        $user = Role::create(['name' => 'User']);
+        $public = Role::create(['name' => 'Public']);
 
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission])->assignRole($developer);
@@ -86,7 +84,9 @@ class RoleTableSeeder extends Seeder
             'products',
             'orders',
         ]);
-        $user->givePermissionTo([]);
+        $public->givePermissionTo([
+            'orders',
+        ]);
 
 
         $users = [
