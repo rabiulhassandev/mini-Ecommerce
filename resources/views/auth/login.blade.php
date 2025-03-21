@@ -40,14 +40,15 @@
             </div>
 
 
-            {{-- <div class="mt-4 text-center">
-                @if (Route::has('password.request'))
-                <a class="text-muted" href="{{ route('password.request') }}">
-                    <i class="mdi mdi-lock me-1"></i>
-                    {{ __('Forgot your password?') }}
-                </a>
+            <x-slot name="footer">
+                @if (Route::has('register'))
+                <p>Don't have an account ?
+                    <a href="{{ route('register') }}" class="fw-bold text-white">
+                        Register
+                    </a>
+                </p>
                 @endif
-            </div> --}}
+            </x-slot>
         </form>
 
     </x-auth-card>

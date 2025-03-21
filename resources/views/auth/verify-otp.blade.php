@@ -56,7 +56,7 @@
         <x-slot name="title">
             <h4 class="text-dark mb-2 mt-4">OTP Verification</h4>
             <p class="text-dark">
-                We have sent you a verification OTP to your phone number, please input the verification OTP.
+                We have sent you a verification OTP to your email, please input the verification OTP.
             </p>
         </x-slot>
 
@@ -66,12 +66,12 @@
 
         <form class="form-horizontal mt-4 pt-2" method="POST" action="{{ route('forget.password.request') }}" id="resend_form">
             @csrf
-            <input type="hidden" name="phone" value="{{ request()->phone }}" readonly required>
+            <input type="hidden" name="email" value="{{ request()->email }}" readonly required>
         </form>
 
         <form class="form-horizontal mt-4 pt-2" method="POST" action="{{ route('forget.otp.verify.request') }}" class="digit-group" data-group-name="digits" data-autosubmit="false" autocomplete="off" style="max-width: 400px; margin: auto">
             @csrf
-            <input type="hidden" name="phone" value="{{ request()->phone }}" readonly required>
+            <input type="hidden" name="email" value="{{ request()->email }}" readonly required>
 
             {{-- <input type="number" name="otp" id="otp" value="" class="form-control mb-1" required> --}}
             <div class="grid-area text-center d-flex justify-content-around">

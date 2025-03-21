@@ -13,6 +13,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use App\Notifications\OTPNotificationViaEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -114,7 +115,7 @@ class User extends Authenticatable
             $this->otp_created_at = Carbon::now();
             $this->save();
 
-            $this->notify(new OTPNotification($this));
+            $this->notify(new OTPNotificationViaEmail($this));
 
             return [
                 'message'     => 'New OTP Generated.',
@@ -174,17 +175,17 @@ class User extends Authenticatable
                 // generate token
                 $token = Str::random(config('otp.tokenLength'));
                 // check if token already exists
-                $password_reset = DB::table('password_resets')->where('phone', $this->phone)->first();
+                $password_reset = DB::table('password_resets')->where('email', $this->email)->first();
                 if ($password_reset) {
                     $password_reset = DB::table('password_resets')->update([
-                        'phone'      => $this->phone,
+                        'email'      => $this->email,
                         'token'      => $token,
                         'created_at' => Carbon::now(),
                     ]);
                 }
                 else {
                     $password_reset = DB::table('password_resets')->insert([
-                        'phone'      => $this->phone,
+                        'email'      => $this->email,
                         'token'      => $token,
                         'created_at' => Carbon::now(),
                     ]);
@@ -227,8 +228,10 @@ class User extends Authenticatable
     public function checkPasswordResetToken($token)
     {
         $password_reset = DB::table('password_resets')->where('token', $token)->first();
+
         if ($password_reset) {
-            $expireTime = Carbon::create($password_reset->created_at)->addMinute(\config('otp.session'));
+            // $expireTime = Carbon::create($password_reset->created_at)->addMinute(\config('otp.session'));
+            $expireTime = Carbon::parse($password_reset->created_at)->addMinutes(config('otp.session'));
             if ($expireTime > Carbon::now()) {
                 // delete the token
                 DB::table('password_resets')->where('token', $token)->delete();

@@ -16,6 +16,7 @@
 |
 */
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -32,6 +33,12 @@ Route::post('/attribute-values', [HomeController::class, 'attributeValues'])->na
 Route::post('/attribute-value-details', [HomeController::class, 'attributeValueDetails'])->name('home.attribute-value-details');
 // color details
 Route::post('/color-details', [HomeController::class, 'colorDetails'])->name('home.color-details');
+
+Route::get('/test-send-mail', function(){
+    Mail::raw('This is a test email', function ($message) {
+        $message->to('rabiulhassandev@gmail.com')->subject('Test Email');
+    });
+});
 
 
 // add to cart routes

@@ -1,4 +1,4 @@
-{{-- <x-auth-layout>
+<x-auth-layout>
     <x-auth-card>
         <x-slot name="title">
             <h5 class="text-primary mb-2 mt-4">Welcome To New Journey !</h5>
@@ -40,7 +40,7 @@
             </div>
             <div class="mt-4 text-center">
                 <p class="mb-0">By registering you agree to the {{ config('app.name') }}
-                    <a href="javascript:void();" class="text-primary">Terms of Use</a>
+                    <a href="{{ route('home.page', 'terms-condition') }}" target="_blank" class="text-primary">Terms of Use</a>
                 </p>
             </div>
         </form>
@@ -55,4 +55,3 @@
         </x-slot>
     </x-auth-card>
 </x-auth-layout>
- --}}

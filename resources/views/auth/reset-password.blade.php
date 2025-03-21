@@ -17,9 +17,9 @@
             <input type="hidden" name="token" value="{{ request()->token ?? '' }}">
 
             <div class="mb-3">
-                <label for="phone">{{ __('Phone Number') }}</label>
-                <input id="phone" class="form-control" type="phone" name="phone"
-                    value="{{ old('phone', request()->phone ?? '') }}" readonly required />
+                <label for="email">{{ __('Email') }}</label>
+                <input id="email" class="form-control" type="email" name="email"
+                    value="{{ old('email', request()->email ?? '') }}" readonly required />
             </div>
 
             <div class="mb-3">

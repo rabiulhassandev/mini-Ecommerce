@@ -3,7 +3,7 @@
         <x-slot name="title">
             <h5 class="text-primary mb-2 mt-4">Forgot your password?</h5>
             <p class="text-muted">
-                No problem. Just let us know your phone number and we
+                No problem. Just let us know your email and we
                 will send you a otp that will allow you to choose a new one.
             </p>
         </x-slot>
@@ -20,7 +20,7 @@
             @csrf
 
             <div class="mb-3">
-                <input class="form-control" type="text" name="phone" value="{{ old('phone') }}" placeholder="Enter your phone number" required
+                <input class="form-control" type="text" name="email" value="{{ old('email') }}" placeholder="Enter your email" required
                     autofocus />
             </div>
 

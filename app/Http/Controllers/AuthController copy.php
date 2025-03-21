@@ -24,17 +24,17 @@ class AuthController extends Controller
     public function forgetPasswordRequest(Request $request)
     {
         $data = $request->validate([
-            'email' => 'required|string',
+            'phone' => 'required|string',
         ]);
 
         Session::forget('forget-password-verify');
         Session::forget('forget-password-change');
 
         // find user
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('phone', $data['phone'])->first();
         // if don't find user
         if (! $user) {
-            Session::flash('error', 'Email not found!');
+            Session::flash('error', 'ফোন নাম্বারটি খুজে পাওয়া যাচ্ছে না');
             return redirect()->route('forget.password');
         }
 
@@ -46,7 +46,7 @@ class AuthController extends Controller
             Session::flash('success', $otp['message']);
             Session::put('forget-password-verify', true);
 
-            return redirect()->route('forget.otp.verify', ['email' => $user->email]);
+            return redirect()->route('forget.otp.verify', ['phone' => $user->phone]);
         }
         Session::flash('error', $otp['message']);
 
@@ -66,21 +66,21 @@ class AuthController extends Controller
     public function verifyRequest(Request $request)
     {
         $data = $request->validate([
-            'email' => 'required|string',
+            'phone' => 'required|string',
             'otp' => 'required|array',
         ]);
 
         $data['otp'] = implode('', $data['otp']);
 
         if (strlen($data['otp']) != config('otp.length')) {
-            return redirect()->back()->withErrors(['otp' => 'OTP length mush be '.config('otp.length')])->with(['email' => $data['email']]);
+            return redirect()->back()->withErrors(['otp' => 'OTP length mush be '.config('otp.length')])->with(['phone' => $data['phone']]);
         }
 
         // find user
-        $user = User::where('email', $data['email'])->first();
+        $user = User::where('phone', $data['phone'])->first();
         // if don't find user
         if (! $user) {
-            Session::flash('error', 'Email not found!');
+            Session::flash('error', 'ফোন নাম্বারটি খুজে পাওয়া যায়নি।');
 
             return redirect()->route('forget.otp.verify');
         }
@@ -92,12 +92,12 @@ class AuthController extends Controller
             Session::put('forget-password-change', true);
             Session::forget('forget-password-verify');
 
-            return redirect()->route('forget.password.change', ['token' => $otp['token'], 'email' => $user->email]);
+            return redirect()->route('forget.password.change', ['token' => $otp['token'], 'phone' => $user->phone]);
         }
 
         // return response
         Session::flash('error', $otp['message']);
-        return redirect()->route('forget.otp.verify', ['email' => $data['email']])->withErrors(['otp' => $otp['message']]);
+        return redirect()->route('forget.otp.verify', ['phone' => $data['phone']])->withErrors(['otp' => $otp['message']]);
     }
 
     public function passwordChange()
@@ -114,18 +114,17 @@ class AuthController extends Controller
         $data = $request->validate([
             'token' => 'required|string|min:'.\config('otp.tokenLength').'|max:'.\config('otp.tokenLength'),
             'password' => 'required|string|confirmed',
-            'email' => 'required|string|email',
         ]);
-
         $userModel = new User;
         $token = $userModel->checkPasswordResetToken($data['token']);
 
         if ($token['status']) {
-            $user = User::where('email', $token['data']->email ?? null)->first();
+            $user = User::where('phone', $token['data']->phone)->first();
             Session::forget('forget-password-change');
             // if don't find user
             if (! $user) {
-                Session::flash('error', 'Email not found!');
+                Session::flash('error', 'ফোন নাম্বারটি খুজে পাওয়া যায়নি।');
+
                 return redirect()->route('forget.password.change');
             }
             // change password
@@ -138,11 +137,8 @@ class AuthController extends Controller
             return redirect()->route('login');
         }
 
-        // forget session
-        Session::forget('forget-password-change');
-
         Session::flash('error', $token['message']);
 
-        return redirect()->route('forget.password.change')->withErrors(['token' => $token['message']])->with(['email' => $data['email']]);
+        return redirect()->route('forget.password.change')->withErrors(['token' => $token['message']])->with(['phone' => $data['phone']]);
     }
 }
