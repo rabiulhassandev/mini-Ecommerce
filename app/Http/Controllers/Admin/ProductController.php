@@ -258,7 +258,8 @@ class ProductController extends Controller
     public function productImageStore(Product $product, Request $request)
     {
         $data = $request->validate([
-            'product_image' => ['required', 'mimes:png,jpg,jpeg,svg,gif', 'max:2024', 'dimensions:width=800,height=800'],
+            // 'product_image' => ['required', 'mimes:png,jpg,jpeg,svg,gif', 'max:2024', 'dimensions:width=800,height=800'],
+            'product_image' => ['required', 'mimes:png,jpg,jpeg,svg,gif', 'max:2024'],
         ]);
 
         $data['product_image'] = upload_image($request, 'product_image', 'products/product_image');
