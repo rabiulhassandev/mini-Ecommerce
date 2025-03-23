@@ -83,6 +83,7 @@ class RoleTableSeeder extends Seeder
             'categories',
             'products',
             'orders',
+            'orders_all'
         ]);
         $public->givePermissionTo([
             'orders',
