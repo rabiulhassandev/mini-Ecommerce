@@ -69,6 +69,7 @@ class RoleTableSeeder extends Seeder
 
         $admin->givePermissionTo([
             'user_browse',
+            'user_create',
             'user_show',
             'user_edit',
 
